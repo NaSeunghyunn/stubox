@@ -4,6 +4,11 @@ let api = {
         commonMethod.fetchGet(url).then(data => this.searchCallback(data)).catch(err => false);
     },
 
+    searchMyBox: function(){
+            let url = "/box/myBox";
+            commonMethod.fetchGet(url).then(data => this.searchCallback(data)).catch(err => false);
+        },
+
     createBox: function(){
         let url = "/box";
         let body = {
@@ -14,6 +19,9 @@ let api = {
 
     searchCallback: function(data){
         if (data == null) return;
+
+        let $container = $(".container");
+        $container.empty();
         $(data).each(function(index, item){
             addItem(item.id, item.name);
         });

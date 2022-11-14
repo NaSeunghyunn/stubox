@@ -4,7 +4,6 @@ import com.nastudy.stubox.controller.form.CardSaveForm;
 import com.nastudy.stubox.controller.form.CardUpdateForm;
 import com.nastudy.stubox.domain.Card;
 import com.nastudy.stubox.domain.CardBox;
-import com.nastudy.stubox.dto.BoxDto;
 import com.nastudy.stubox.dto.CardDto;
 import com.nastudy.stubox.dto.CardsDto;
 import com.nastudy.stubox.repository.CardBoxJpaRepository;

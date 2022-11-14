@@ -10,7 +10,8 @@
 </head>
 <body>
 <div>
-    <a href="#" role="button"> 나의 박스만 보기</a>
+    <a href="#" role="button" onclick="api.search();"> 팀박스 전체 보기</a>
+    <a href="#" role="button" onclick="api.searchMyBox();"> 나의 박스만 보기</a>
 </div>
 <div>
     <input type="text" id="boxName"><a href="#" role="button" onclick="api.createBox();"> 암기박스 만들기</a>

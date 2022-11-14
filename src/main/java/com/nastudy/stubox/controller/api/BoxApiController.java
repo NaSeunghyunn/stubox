@@ -20,7 +20,20 @@ public class BoxApiController {
 
     @GetMapping()
     public List<BoxDto> search(@AuthenticationPrincipal PrincipalDetail principal) {
-        BoxSearchCond searchCond = BoxSearchCond.of(principal);
+        BoxSearchCond searchCond = BoxSearchCond
+                .builder()
+                .memberId(principal.getId())
+                .teamId(principal.getTeamId())
+                .build();
+        return cardBoxService.search(searchCond);
+    }
+
+    @GetMapping("/myBox")
+    public List<BoxDto> searchMyBox(@AuthenticationPrincipal PrincipalDetail principal) {
+        BoxSearchCond searchCond = BoxSearchCond
+                .builder()
+                .memberId(principal.getId())
+                .build();
         return cardBoxService.search(searchCond);
     }
 
