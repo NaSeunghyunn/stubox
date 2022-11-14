@@ -1,6 +1,6 @@
-package com.nastudy.stubox.auth;
+package com.nastudy.stubox.config.auth;
 
-import com.nastudy.stubox.entity.Member;
+import com.nastudy.stubox.domain.Member;
 import com.nastudy.stubox.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -18,7 +18,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        Member member = memberRepository.findByProviderId(oAuth2User.getName());
+        Member member = memberRepository.findAuthentication(oAuth2User.getName());
 
         if (member == null) {
             member = Member.builder()
@@ -30,6 +30,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
             memberRepository.save(member);
         }
-        return new PrincipalDetail(member, oAuth2User.getAttributes());
+        return new PrincipalDetail(member);
     }
 }

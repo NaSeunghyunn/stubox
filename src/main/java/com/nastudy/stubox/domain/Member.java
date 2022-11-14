@@ -1,4 +1,4 @@
-package com.nastudy.stubox.entity;
+package com.nastudy.stubox.domain;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,13 +9,13 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
 
-@Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@Entity
 public class Member extends BaseEntity{
     @Id
     @GeneratedValue
-    private Long Id;
+    private Long id;
     private String name;
     private String email;
     @ManyToOne(fetch = LAZY)
@@ -27,7 +27,7 @@ public class Member extends BaseEntity{
 
     @Builder
     public Member(Long id, String name, String email, Team team, String provider, String providerId) {
-        Id = id;
+        this.id = id;
         this.name = name;
         this.email = email;
         this.team = team;

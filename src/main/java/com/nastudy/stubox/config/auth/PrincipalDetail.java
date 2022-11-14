@@ -1,6 +1,6 @@
-package com.nastudy.stubox.auth;
+package com.nastudy.stubox.config.auth;
 
-import com.nastudy.stubox.entity.Member;
+import com.nastudy.stubox.domain.Member;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -10,14 +10,18 @@ import java.util.Map;
 
 @Getter
 public class PrincipalDetail implements OAuth2User {
-    private Long id;
-    private String name;
-    private String email;
+    private Member member;
 
-    public PrincipalDetail(Member member, Map<String, Object> attributes) {
-        this.id = member.getId();
-        this.name = attributes.get("name").toString();
-        this.email = attributes.get("email").toString();
+    public PrincipalDetail(Member member) {
+        this.member = member;
+    }
+
+    public Long getId(){
+        return member.getId();
+    }
+
+    public Long getTeamId(){
+        return member.getTeam() == null ? null : member.getTeam().getId();
     }
 
     @Override
@@ -32,6 +36,6 @@ public class PrincipalDetail implements OAuth2User {
 
     @Override
     public String getName() {
-        return name;
+        return member.getName();
     }
 }

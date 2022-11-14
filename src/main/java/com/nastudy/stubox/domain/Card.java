@@ -1,6 +1,6 @@
-package com.nastudy.stubox.entity;
+package com.nastudy.stubox.domain;
 
-import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +9,9 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@Entity
 public class Card extends BaseEntity{
     @Id
     @GeneratedValue
@@ -23,4 +23,12 @@ public class Card extends BaseEntity{
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "box_id")
     private CardBox cardBox;
+
+    @Builder
+    public Card(Long id, String keyword, String concept, CardBox cardBox) {
+        this.id = id;
+        this.keyword = keyword;
+        this.concept = concept;
+        this.cardBox = cardBox;
+    }
 }

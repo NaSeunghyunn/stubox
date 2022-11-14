@@ -1,4 +1,4 @@
-package com.nastudy.stubox.entity;
+package com.nastudy.stubox.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +10,9 @@ import javax.persistence.Id;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@Entity
 public class Team extends BaseEntity{
     @Id
     @GeneratedValue

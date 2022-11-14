@@ -1,6 +1,6 @@
 package com.nastudy.stubox.config;
 
-import com.nastudy.stubox.auth.PrincipalOauth2UserService;
+import com.nastudy.stubox.config.auth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
