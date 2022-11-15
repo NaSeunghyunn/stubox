@@ -1,5 +1,6 @@
 package com.nastudy.stubox.service;
 
+import com.nastudy.stubox.controller.form.CardDeleteForm;
 import com.nastudy.stubox.controller.form.CardSaveForm;
 import com.nastudy.stubox.controller.form.CardUpdateForm;
 import com.nastudy.stubox.domain.Card;
@@ -24,6 +25,7 @@ public class CardService {
     private final CardJpaRepository cardJpaRepository;
     private final CardBoxJpaRepository cardBoxJpaRepository;
 
+    @Transactional(readOnly = true)
     public CardsDto findCards(Long boxId) {
         CardBox cardBox = cardBoxJpaRepository.getReferenceById(boxId);
         List<CardDto> cards = cardJpaRepository.findByCardBox(cardBox)
@@ -51,5 +53,9 @@ public class CardService {
     public void changeBoxName(CardUpdateForm form) {
         CardBox cardBox = cardBoxJpaRepository.getReferenceById(form.getBoxId());
         cardBox.changeName(form.getBoxName());
+    }
+
+    public void delete(CardDeleteForm form) {
+        cardJpaRepository.deleteById(form.getId());
     }
 }

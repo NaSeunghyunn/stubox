@@ -1,5 +1,6 @@
 package com.nastudy.stubox.controller.api;
 
+import com.nastudy.stubox.controller.form.CardDeleteForm;
 import com.nastudy.stubox.controller.form.CardSaveForm;
 import com.nastudy.stubox.controller.form.CardUpdateForm;
 import com.nastudy.stubox.dto.CardDto;
@@ -29,5 +30,11 @@ public class CardApiController {
     public Long changeBoxName(@RequestBody CardUpdateForm form) {
         cardService.changeBoxName(form);
         return form.getBoxId();
+    }
+
+    @DeleteMapping()
+    public Long delete(@RequestBody CardDeleteForm form) {
+        cardService.delete(form);
+        return form.getId();
     }
 }

@@ -32,6 +32,16 @@ let api = {
         .catch(err => false);
     },
 
+    delCard: function(id){
+        let url = "/card";
+        let body = {
+            id: id
+        };
+        commonMethod.fetch(url,"DELETE",body)
+        .then(()=>$("#card"+id).remove())
+        .catch(err => false);
+    },
+
     initCallback: function(data){
         if (data == null) return;
 
@@ -49,7 +59,7 @@ function addItem(id, keyword, concept){
             let inputConcept = "<input type='text' class='concept' placeholder='콘셉트를 입력하세요' value='"+concept+"'>";
             let delBtn = "<a href='#' role='button' onclick='api.delCard("+id+");'>-</a>";
             // div블럭 생성
-            let div = "<div></div>";
+            let div = "<div id='card"+id+"'></div>";
             let $div = $(div);
             // container
             let $container = $(".container");
