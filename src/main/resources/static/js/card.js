@@ -54,7 +54,7 @@ let api = {
 
 function addItem(id, keyword, concept){
     // 이름
-            let inputKeyword = "<input type='text' class='keyword' placeholder='키워드' value='"+keyword+"'>";
+            let inputKeyword = "<input type='text' class='keyword' placeholder='키워드' value='"+keyword.replace('\'','')+"'>";
             // 선택버튼 생성
             let inputConcept = "<input type='text' class='concept' placeholder='콘셉트를 입력하세요' value='"+concept+"'>";
             let delBtn = "<a href='#' role='button' onclick='api.delCard("+id+");'>-</a>";

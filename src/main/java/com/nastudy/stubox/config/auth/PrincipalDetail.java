@@ -16,12 +16,16 @@ public class PrincipalDetail implements OAuth2User {
         this.member = member;
     }
 
-    public Long getId(){
+    public Long getId() {
         return member.getId();
     }
 
-    public Long getTeamId(){
+    public Long getTeamId() {
         return member.getTeam() == null ? null : member.getTeam().getId();
+    }
+
+    public Long getSelectBoxId() {
+        return member.getCardBox() == null ? null : member.getCardBox().getId();
     }
 
     @Override
