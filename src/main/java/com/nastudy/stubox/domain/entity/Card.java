@@ -1,4 +1,4 @@
-package com.nastudy.stubox.domain;
+package com.nastudy.stubox.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;

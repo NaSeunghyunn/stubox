@@ -1,5 +1,12 @@
 let commonMethod = {
-    fetchGet: async function (url) {
+    fetchGet: async function (url, params) {
+        if (params != null) {
+            let query = Object.keys(params)
+                .filter(k => params[k] != null)
+                .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+                .join('&');
+            url = url + "?" + query;
+        }
         const res = await fetch(getApiUrl(url));
         const data = await res.json();
         if (res.ok) {
@@ -44,23 +51,23 @@ let commonMethod = {
     },
 
     back: function () {
-    console.log($("#referer").val());
-    $("#referer").val();
+        console.log($("#referer").val());
+        $("#referer").val();
     },
 
-    clearError: function (){
+    clearError: function () {
         $(".err").empty();
     },
 
-    drawError: function (error){
-         $(".err").text(error.message);
+    drawError: function (error) {
+        $(".err").text(error.message);
     }
 }
 
-function getApiUrl(url){
+function getApiUrl(url) {
     return "/api" + url;
 }
 
-function apiError(data){
+function apiError(data) {
     throw new Error(data.error);
 }

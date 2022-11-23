@@ -5,7 +5,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import static com.nastudy.stubox.domain.QCard.card;
+import static com.nastudy.stubox.domain.entity.QCard.card;
+
 
 @RequiredArgsConstructor
 @Repository

@@ -1,5 +1,6 @@
-package com.nastudy.stubox.domain;
+package com.nastudy.stubox.domain.entity;
 
+import com.nastudy.stubox.domain.TeamRole;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class Member extends BaseEntity {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "select_box_id")
     private CardBox cardBox;
+    @Enumerated(EnumType.STRING)
+    private TeamRole teamRole = TeamRole.NONE;
 
     @Builder
     public Member(Long id, String name, String email, Team team, String provider, String providerId) {
@@ -40,5 +43,10 @@ public class Member extends BaseEntity {
 
     public void selectBox(CardBox cardBox) {
         this.cardBox = cardBox;
+    }
+
+    public void createTeam(Team team){
+        this.team = team;
+        this.teamRole = TeamRole.MASTER;
     }
 }

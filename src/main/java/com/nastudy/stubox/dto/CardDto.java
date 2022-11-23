@@ -1,6 +1,6 @@
 package com.nastudy.stubox.dto;
 
-import com.nastudy.stubox.domain.Card;
+import com.nastudy.stubox.domain.entity.Card;
 import lombok.Data;
 
 @Data

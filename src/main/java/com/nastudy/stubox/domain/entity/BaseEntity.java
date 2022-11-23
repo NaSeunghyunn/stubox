@@ -1,4 +1,4 @@
-package com.nastudy.stubox.domain;
+package com.nastudy.stubox.domain.entity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

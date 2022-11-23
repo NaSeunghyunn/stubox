@@ -1,6 +1,6 @@
 package com.nastudy.stubox.config.auth;
 
-import com.nastudy.stubox.domain.Member;
+import com.nastudy.stubox.domain.entity.Member;
 import com.nastudy.stubox.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -30,6 +30,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
             memberRepository.save(member);
         }
-        return new PrincipalDetail(member);
+        return new PrincipalDetail(member, oAuth2User.getAttributes());
     }
 }

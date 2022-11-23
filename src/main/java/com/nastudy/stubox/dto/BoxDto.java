@@ -1,6 +1,6 @@
 package com.nastudy.stubox.dto;
 
-import com.nastudy.stubox.domain.CardBox;
+import com.nastudy.stubox.domain.entity.CardBox;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

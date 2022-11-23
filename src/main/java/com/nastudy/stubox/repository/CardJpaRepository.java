@@ -1,7 +1,7 @@
 package com.nastudy.stubox.repository;
 
-import com.nastudy.stubox.domain.Card;
-import com.nastudy.stubox.domain.CardBox;
+import com.nastudy.stubox.domain.entity.Card;
+import com.nastudy.stubox.domain.entity.CardBox;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

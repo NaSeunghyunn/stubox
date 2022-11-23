@@ -1,6 +1,6 @@
 package com.nastudy.stubox.repository;
 
-import com.nastudy.stubox.domain.Member;
+import com.nastudy.stubox.domain.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

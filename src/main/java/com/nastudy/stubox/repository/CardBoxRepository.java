@@ -9,9 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.nastudy.stubox.domain.QCardBox.cardBox;
-import static com.nastudy.stubox.domain.QMember.member;
-import static com.nastudy.stubox.domain.QTeam.team;
+import static com.nastudy.stubox.domain.entity.QCardBox.cardBox;
+import static com.nastudy.stubox.domain.entity.QMember.member;
+import static com.nastudy.stubox.domain.entity.QTeam.team;
+
 
 @RequiredArgsConstructor
 @Repository

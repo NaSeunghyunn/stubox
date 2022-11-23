@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>카드</title>
@@ -8,20 +9,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
 <body>
-<div>
-<input type="text" id="boxName" th:value="${boxName}" placeholder="암기박스 이름">
-    <a href="#" role="button" onclick="api.changeBoxName()">이름 변경</a>
-</div>
-<div class="container">
-<div id="addRow">
-<input type="text" class="keyword" placeholder="키워드">
-<input type="text" class="concept" placeholder="콘셉트를 입력하세요">
-<a href="#" role="button" onclick="api.save();">+</a>
-<input type="hidden" id="boxId" th:value="${boxId}">
-</div>
-</div>
+    <div>
+        <input type="text" id="boxName" th:value="${boxName}" placeholder="암기박스 이름">
+        <input type="button" onclick="api.changeBoxName()" value="이름 변경">
+    </div>
+    <div class="container">
+        <div id="addRow">
+            <input type="text" class="keyword" placeholder="키워드">
+            <input type="text" class="concept" placeholder="콘셉트를 입력하세요">
+            <input type="button" onclick="api.save();" value="+">
+            <input type="hidden" id="boxId" th:value="${boxId}">
+        </div>
+    </div>
 </body>
 <script src="/js/common.js"></script>
 <script src="/js/card.js"></script>
+
 </html>
