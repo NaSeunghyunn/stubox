@@ -45,8 +45,17 @@ public class Member extends BaseEntity {
         this.cardBox = cardBox;
     }
 
-    public void createTeam(Team team){
+    public void createTeam(Team team) {
         this.team = team;
+        this.teamRole = TeamRole.MASTER;
+    }
+
+    public void removeTeam() {
+        this.team = null;
+        this.teamRole = TeamRole.NONE;
+    }
+
+    public void auth(){
         this.teamRole = TeamRole.MASTER;
     }
 }

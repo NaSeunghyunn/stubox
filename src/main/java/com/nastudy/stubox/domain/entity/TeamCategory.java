@@ -1,5 +1,6 @@
 package com.nastudy.stubox.domain.entity;
 
+import com.nastudy.stubox.domain.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,26 +13,24 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-public class Posts extends BaseEntity {
-    @Id
+public class TeamCategory {
+
     @GeneratedValue
+    @Id
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
-
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String content;
-
-    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "team_id")
+    @ManyToOne(fetch = LAZY)
     private Team team;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     @Builder
-    public Posts(Long id, String title, String content, Team team) {
+    public TeamCategory(Long id, Team team, Category category) {
         this.id = id;
-        this.title = title;
-        this.content = content;
         this.team = team;
+        this.category = category;
     }
 }

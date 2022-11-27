@@ -45,4 +45,12 @@ public class PrincipalDetail implements OAuth2User {
     public String getName() {
         return member.getName();
     }
+
+    public void checkMaster() {
+        if (member.getTeamRole() != TeamRole.MASTER) throw new IllegalStateException("관리자가 아닙니다.");
+    }
+
+    public void hasTeam() {
+        if (member.getTeam() == null) throw new IllegalStateException("팀이 없습니다.");
+    }
 }

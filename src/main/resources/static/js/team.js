@@ -12,8 +12,13 @@ let api = {
 }
 
 function categories() {
-    let category1 = $("#category1 option:selected").val();
-    let category2 = $("#category2 option:selected").val();
-    let category3 = $("#category3 option:selected").val();
+    let category1 = blankToNull($("#category1 option:selected").val());
+    let category2 = blankToNull($("#category2 option:selected").val());
+    let category3 = blankToNull($("#category3 option:selected").val());
     return [category1, category2, category3];
+}
+
+function blankToNull(str){
+    if(str == "") return null;
+    return str;
 }

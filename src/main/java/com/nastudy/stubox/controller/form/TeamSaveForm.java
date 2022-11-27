@@ -11,7 +11,7 @@ public class TeamSaveForm {
     private String name;
     private EnumSet<Category> categories;
 
-    public Team toEntity(){
-        return Team.builder().name(this.name).categories(this.categories).build();
+    public Team toTeam() {
+        return Team.builder().name(this.name).build();
     }
 }

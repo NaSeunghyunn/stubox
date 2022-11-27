@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class Auth2Service {
     private final MemberRepository memberRepository;
 
-    public void modifyMember(Member member) {
+    public PrincipalDetail modifyMember(Member member) {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
@@ -22,5 +22,27 @@ public class Auth2Service {
 
         OAuth2AuthenticationToken token = new OAuth2AuthenticationToken(newPrincipalDetail, newPrincipalDetail.getAuthorities(), member.getProviderId());
         context.setAuthentication(token);
+        return newPrincipalDetail;
+    }
+
+    public PrincipalDetail refresh(PrincipalDetail principal) {
+        Member member = memberRepository.findById(principal.getId()).orElseThrow(() -> new IllegalArgumentException("다시 로그인 해주세요."));
+        if (refreshTeam(member, principal)) {
+            return modifyMember(member);
+        }
+        return principal;
+    }
+
+    private boolean refreshTeam(Member member, PrincipalDetail principalDetail) {
+        if (member.getTeam() == null) {
+            return true;
+        }
+        if (!member.getTeam().getId().equals(principalDetail.getTeamId())) {
+            return true;
+        }
+        if (member.getTeamRole() != principalDetail.getTeamRole()) {
+            return true;
+        }
+        return false;
     }
 }
