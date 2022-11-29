@@ -6,14 +6,14 @@ let api = {
             .catch(err => false);
     },
 
-    authorize: function(id){
+    authorize: function (id) {
         let url = "/team/auth";
         let body = {
             memberId: id
         }
         commonMethod.fetch(url, "PUT", body)
-                    .then(() => window.location.reload())
-                    .catch(err => false);
+            .then(() => window.location.reload())
+            .catch(err => false);
     },
 
     expel: function (id) {
@@ -26,28 +26,28 @@ let api = {
             .catch(err => false);
     },
 
-    withdrawal: function(){
+    withdrawal: function () {
         let url = "/team/withdrawal";
         commonMethod.fetch(url, "PUT")
-                    .then(() => location.href = "/group")
-                    .catch(err => false);
+            .then(() => location.href = "/group")
+            .catch(err => false);
     },
 
-    update: function(){
+    update: function () {
         let url = "/team/my";
         let body = {
-            categories : categories()
+            categories: categories()
         };
         commonMethod.fetch(url, "PUT", body)
-                    .then(() => window.location.reload())
-                    .catch(err => false);
+            .then(() => window.location.reload())
+            .catch(err => false);
     },
 
-    remove: function(){
+    remove: function () {
         let url = "/team";
         commonMethod.fetch(url, "DELETE")
-                            .then(() => location.href = "/group")
-                            .catch(err => false);
+            .then(() => location.href = "/group")
+            .catch(err => false);
     }
 }
 
@@ -85,10 +85,10 @@ function setTeamMembers(data) {
 
         if ($("#mode").val() == "manage") {
             let aBtn = document.createElement('input');
-                        let $aBtn = $(aBtn);
-                        $aBtn.attr("type", "button");
-                        $aBtn.attr("onclick", "api.authorize(" + item.id + ")")
-                        $aBtn.val("임원");
+            let $aBtn = $(aBtn);
+            $aBtn.attr("type", "button");
+            $aBtn.attr("onclick", "api.authorize(" + item.id + ")")
+            $aBtn.val("임원");
 
             let eBtn = document.createElement('input');
             let $eBtn = $(eBtn);
@@ -110,8 +110,8 @@ function categories() {
     return [category1, category2, category3];
 }
 
-function blankToNull(str){
-    if(str == "") return null;
+function blankToNull(str) {
+    if (str == "") return null;
     return str;
 }
 api.init();

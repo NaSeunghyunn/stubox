@@ -18,7 +18,7 @@ function categories() {
     return [category1, category2, category3];
 }
 
-function blankToNull(str){
-    if(str == "") return null;
+function blankToNull(str) {
+    if (str == "") return null;
     return str;
 }
