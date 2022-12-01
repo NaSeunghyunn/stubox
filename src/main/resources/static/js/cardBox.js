@@ -25,8 +25,8 @@ let api = {
     searchCallback: function (data) {
         if (data == null) return;
 
-        let $container = $(".container");
-        $container.empty();
+        let $contents = $("#contents");
+        $contents.empty();
         let selectBoxId = data.selectBoxId;
         $(data.boxes).each(function (index, item) {
             addItem(item.id, item.name, selectBoxId);
@@ -35,25 +35,33 @@ let api = {
 }
 
 function addItem(id, name, selectBoxId) {
-    // 이름버튼 생성
-    let nameBtn = "<a href='/card/init/" + id + "' role='button'>" + name + "</a>";
-    // 선택버튼 생성
-    let selectBtn = "<input type='button' onclick='selectBox(this," + id + ")' value='선택'>";
     // div블럭 생성
-    let div = "<div class='box'></div>";
+    let div = "<div class='mt-2'></div>";
     let $div = $(div);
+
+    // 버튼그룹 생성
+    let btnGroup = "<div class='btn-group' style='width: 38.5rem'></div>";
+    let $btnGroup = $(btnGroup);
+    // 이름버튼 생성
+    let nameBtn = "<a href='/card/init/" + id + "' role='button' class='btn btn-outline-success box' style='width: 90%;'>" + name + "</a>";
     if (id === selectBoxId) {
-        $div.css("background", "#c6dcfc");
-    }
-    // container
-    let $container = $(".container");
-    $container.append($div.append(nameBtn).append(selectBtn));
+            nameBtn = "<a href='/card/init/" + id + "' role='button' class='btn btn-success box' style='width: 90%;'>" + name + "</a>";
+
+        }
+    // 선택버튼 생성
+    let selectBtn = "<input type='button' onclick='selectBox(this," + id + ")' class='btn btn-outline-success' value='선택'>";
+
+    // contents
+    let $contents = $("#contents");
+    $btnGroup.append(nameBtn).append(selectBtn);
+    $div.append($btnGroup);
+    $contents.append($div);
 }
 
 function selectBox(target, id) {
-    $(".box").css("background", "");
-    $boxDiv = $(target).parents(".box");
-    $boxDiv.css("background", "#c6dcfc");
+    $(".box").attr("class", "btn btn-outline-success box");
+    $box = $(target).prev(".box");
+    $box.attr("class", "btn btn-success box");
     api.select(id);
 }
 

@@ -15,7 +15,7 @@ let api = {
 }
 
 function doSearch() {
-    $("#container ul").empty();
+    $("#contents ul").empty();
     $("#lastPostId").val("");
     api.search();
 }
@@ -25,8 +25,17 @@ function drawPosts(data) {
         let row = document.createElement('li');
         let $row = $(row);
 
+        let divGroupRow = document.createElement('div');
+        let $divGroupRow = $(divGroupRow);
+        $divGroupRow.attr("class", "group-row d-flex justify-content-between");
+
+        let divContent = document.createElement('div');
+        let $divContent = $(divContent);
+        $divContent.attr("id", "content-div");
+
         let divTeam = document.createElement('div');
         let $divTeam = $(divTeam);
+        $divTeam.css("float", "left");
 
         let spanTeamName = document.createElement('span');
         let $spanTeamName = $(spanTeamName);
@@ -43,21 +52,32 @@ function drawPosts(data) {
 
         let divPost = document.createElement('div');
         let $divPost = $(divPost);
+        $divPost.css("text-align", "left");
 
         let spanTitle = document.createElement('span');
         let $spanTitle = $(spanTitle);
         $spanTitle.css("font-size", "1.7rem");
-        $spanTitle.text(item.title);
+        let title = item.title.length >13 ? item.title.slice(0,13)+"...":item.title
+        $spanTitle.text(title);
 
-        let signUpBtn = document.createElement('input');
-        let $signUpBtn = $(signUpBtn);
-        $signUpBtn.attr("type", "button");
-        $signUpBtn.val("신청");
+        $divPost.append($spanTitle);
+        $divContent.append($divTeam).append($divPost);
 
-        $divPost.append($spanTitle).append($signUpBtn);
+        let divBtn = document.createElement('div');
+        let $divBtn = $(divBtn);
+        $divBtn.attr("class", "req-btn-div");
 
-        $row.append($divTeam).append($divPost);
-        $("#container ul").append($row);
+        let reqBtn = document.createElement('input');
+        let $reqBtn = $(reqBtn);
+        $reqBtn.attr("type", "button");
+        $reqBtn.attr("class", "btn btn-outline-success");
+        $reqBtn.attr("id", "req-btn");
+        $reqBtn.val("신청");
+
+        $divBtn.append($reqBtn);
+        $divGroupRow.append($divContent).append($divBtn);
+        $row.append($divGroupRow);
+        $("#contents ul").append($row);
         $("#lastPostId").val(item.postId);
     });
     return data;

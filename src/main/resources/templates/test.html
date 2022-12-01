@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
+<head th:replace="/fragments/header.html :: link_header(~{::title}, ~{::style})">
     <title>테스트</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        #keyword {
+            width: 100%;
+        }
+
+        #ok,
+        #ng {
+            width: 49%;
+        }
+
+        @media (max-height: 765px) {
+            #concept {
+                height: 25rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div id="container">
+    <div th:replace="/fragments/nav.html :: top-nav"></div>
+    <div class="container">
         <p id="message"></p>
-        <input type="button" id="keyword" onclick="showConcept();" value="키워드">
-        <div id="result" style="display: none;">
-            <textarea id="concept" style="width: 100%; height: 70%" readonly>콘셉트</textarea>
-            <div>
-                <input type="button" id="ok" onclick="test('OK');" value="정답">
-                <input type="button" id="ng" onclick="test('NG');" value="오답">
+        <input type="button" id="keyword" class="btn btn-outline-success" onclick="showConcept();" value="키워드">
+        <div id="result" style="display:none;" class="mt-3">
+            <textarea class="form-control" rows="20" id="concept" name="text"
+                style="border-color: #198754; cursor: auto;" readonly></textarea>
+            <div class="mt-2 d-flex justify-content-between">
+                <input type="button" id="ok" class="btn btn-primary" onclick="test('OK');" value="○">
+                <input type="button" id="ng" class="btn btn-danger" onclick="test('NG');" value="×">
             </div>
         </div>
         <input type="hidden" id="id">

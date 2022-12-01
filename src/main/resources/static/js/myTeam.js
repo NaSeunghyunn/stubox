@@ -64,6 +64,7 @@ function setTeamManagers(data) {
     $(data).each(function (index, item) {
         let div = document.createElement('div');
         let $div = $(div);
+        $div.attr("class","grey-bottom-line member-profile");
 
         let spanName = document.createElement('span');
         let $spanName = $(spanName);
@@ -77,6 +78,7 @@ function setTeamMembers(data) {
     $(data).each(function (index, item) {
         let div = document.createElement('div');
         let $div = $(div);
+        $div.attr("class","grey-bottom-line member-profile");
 
         let spanName = document.createElement('span');
         let $spanName = $(spanName);
@@ -84,19 +86,25 @@ function setTeamMembers(data) {
         $div.append($spanName);
 
         if ($("#mode").val() == "manage") {
+            let divBtn = document.createElement('div');
+            let $divBtn = $(divBtn);
+
             let aBtn = document.createElement('input');
             let $aBtn = $(aBtn);
             $aBtn.attr("type", "button");
+            $aBtn.attr("class","btn btn-outline-secondary mx-1");
             $aBtn.attr("onclick", "api.authorize(" + item.id + ")")
             $aBtn.val("임원");
 
             let eBtn = document.createElement('input');
             let $eBtn = $(eBtn);
             $eBtn.attr("type", "button");
+            $eBtn.attr("class","btn btn-outline-secondary mx-1");
             $eBtn.attr("onclick", "api.expel(" + item.id + ")")
             $eBtn.val("추방");
 
-            $div.append($aBtn).append($eBtn);
+            $divBtn.append($aBtn).append($eBtn);
+            $div.append($divBtn)
         }
 
         $("#teamMembers").append($div);

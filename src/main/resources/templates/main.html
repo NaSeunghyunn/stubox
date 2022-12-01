@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="/fragments/header.html :: link_header(~{::title},~{::style})">
+    <title>StuBox</title>
+    <style>
+        .container a {
+            padding: 2rem 6rem !important;
+            min-width: 30rem;
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 505px) {
+            .container a {
+                min-width: 20rem !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <a href="/box/init" role="button" class="btn btn-outline-danger bi bi-google">암기박스</a><br />
-    <a href="/test" role="button" class="btn btn-outline-danger bi bi-google">테스트</a><br />
-    <a href="/group" role="button" class="btn btn-outline-danger bi bi-google">스터디 그룹</a>
+<div th:replace="/fragments/nav.html :: top-nav"></div>
+<div class="container text-center">
+    <div>
+    <a href="/box/init" role="button" class="btn btn-outline-danger">암기박스</a>
+    </div>
+    <div>
+    <a href="/test" role="button" class="btn btn-outline-danger">테스트</a>
+    </div>
+    <div>
+    <a href="/group" role="button" class="btn btn-outline-danger">스터디 그룹</a>
+    </div>
+</div>
+
 </body>
 
 </html>

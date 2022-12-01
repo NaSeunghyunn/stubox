@@ -54,16 +54,16 @@ let api = {
 
 function addItem(id, keyword, concept) {
     // 이름
-    let inputKeyword = "<input type='text' class='keyword' placeholder='키워드' value='" + keyword.replace('\'', '') + "'>";
+    let inputKeyword = "<input type='text' class='keyword form-control mt-2' style='width: 30%; cursor: auto;' value='" + keyword.replace('\'', '') + "' readonly>";
     // 선택버튼 생성
-    let inputConcept = "<input type='text' class='concept' placeholder='콘셉트를 입력하세요' value='" + concept + "'>";
-    let delBtn = "<input type='button' onclick='api.delCard(" + id + ");' value='-'>";
+    let inputConcept = "<input type='text' class='concept form-control mt-2' style='cursor: auto;' value='" + concept + "' readonly>";
+    let delBtn = "<input type='button' class='btn btn-success mt-2 add-btn' onclick='api.delCard(" + id + ");' value='-'>";
     // div블럭 생성
-    let div = "<div id='card" + id + "'></div>";
+    let div = "<div id='card" + id + "' class='d-flex'></div>";
     let $div = $(div);
-    // container
-    let $container = $(".container");
-    $container.append($div.append(inputKeyword).append(inputConcept).append(delBtn));
+    // contents
+    $div.append(inputKeyword).append(inputConcept).append(delBtn);
+    $("#wrap-contents").append($div);
 }
 
 function clearItem(row) {

@@ -10,6 +10,7 @@ import com.nastudy.stubox.dto.CardsDto;
 import com.nastudy.stubox.repository.CardBoxJpaRepository;
 import com.nastudy.stubox.repository.CardJpaRepository;
 import com.nastudy.stubox.repository.CardRepository;
+import com.nastudy.stubox.repository.CardTestJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class CardService {
     private final CardRepository cardRepository;
     private final CardJpaRepository cardJpaRepository;
     private final CardBoxJpaRepository cardBoxJpaRepository;
+    private final CardTestJpaRepository cardTestJpaRepository;
 
     @Transactional(readOnly = true)
     public CardsDto findCards(Long boxId) {
@@ -56,6 +58,8 @@ public class CardService {
     }
 
     public void delete(CardDeleteForm form) {
+        Card card = cardJpaRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+        cardTestJpaRepository.deleteByCard(card);
         cardJpaRepository.deleteById(form.getId());
     }
 }

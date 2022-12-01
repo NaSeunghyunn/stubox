@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="top-nav" class="pb-5">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/img/logo_sb.png" alt="Logo" style="width:40px;" class="rounded-pill">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/box/init">암기박스</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/test">테스트</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/group">스터디그룹</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/team/my">나의 그룹</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">로그아웃</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+</html>

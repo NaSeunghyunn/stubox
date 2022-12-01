@@ -30,6 +30,9 @@ public class TestService {
     @Transactional(readOnly = true)
     public List<TestDto> findTestData(Long memberId, int level) {
         Long selectedBoxId = memberRepository.findSelectedBoxId(memberId);
+        if(selectedBoxId == null){
+            throw new IllegalArgumentException("암기박스를 선택해주세요");
+        }
         TestCond cond = new TestCond(memberId, selectedBoxId, level);
         return cardTestRepository.selectTestData(cond);
     }
