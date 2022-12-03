@@ -1,8 +1,6 @@
 package com.nastudy.stubox.service;
 
 import com.nastudy.stubox.config.auth.Auth2Service;
-import com.nastudy.stubox.controller.form.TeamAuthForm;
-import com.nastudy.stubox.controller.form.TeamExpelForm;
 import com.nastudy.stubox.controller.form.TeamSaveForm;
 import com.nastudy.stubox.controller.form.TeamUpdateForm;
 import com.nastudy.stubox.domain.Category;
@@ -41,7 +39,7 @@ public class TeamService {
         saveTeamCategories(form.getCategories(), team);
 
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalStateException("다시 로그인 해주세요."));
-        member.createTeam(team);
+        member.joinTeam(team, TeamRole.MASTER);
         auth2Service.modifyMember(member);
 
         return team.getId();
@@ -53,16 +51,42 @@ public class TeamService {
         return MyTeamDto.of(team, members);
     }
 
-    public Long auth(TeamAuthForm form, Long teamId) {
-        Member member = groupMember(form.getMemberId(), teamId);
-        member.auth();
+    public Long auth(Long memberId, Long teamId) {
+        Member member = groupMember(memberId, teamId);
+        member.auth(TeamRole.MASTER);
         return member.getId();
     }
 
-    public Long expel(TeamExpelForm form, Long teamId) {
-        Member member = groupMember(form.getMemberId(), teamId);
+    public Long expel(Long memberId, Long teamId) {
+        Member member = groupMember(memberId, teamId);
         member.removeTeam();
         return member.getId();
+    }
+
+    public Long approval(Long memberId, Long teamId) {
+        Member member = groupMember(memberId, teamId);
+        member.auth(TeamRole.MEMBER);
+        return member.getId();
+    }
+
+    public Long refuse(Long memberId, Long teamId) {
+        Member member = groupMember(memberId, teamId);
+        member.removeTeam();
+        return member.getId();
+    }
+
+    public Long cancel(Long memberId, Long teamId) {
+        Member member = groupMember(memberId, teamId);
+        member.removeTeam();
+        return member.getId();
+    }
+
+    public Long req(Long memberId, String teamName) {
+        Member member = notExistGroupMember(memberId);
+        Team team = teamJpaRepository.findByName(teamName).orElseThrow(() -> new IllegalStateException("팀이 없습니다."));
+        member.joinTeam(team, TeamRole.UNAPPROVED);
+        auth2Service.modifyMember(member);
+        return memberId;
     }
 
     public Long withdrawal(Long memberId) {
@@ -127,6 +151,20 @@ public class TeamService {
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디 입니다."));
         if (member.getTeam() == null || !member.getTeam().getId().equals(teamId)) {
             throw new IllegalArgumentException("그룹멤버가 아닙니다.");
+        }
+        return member;
+    }
+
+    private Member notExistGroupMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디 입니다."));
+
+        if (member.getTeamRole() == TeamRole.UNAPPROVED) {
+            throw new IllegalArgumentException("그룹신청을 취소해 주세요.");
+        }
+
+        if (member.getTeam() != null) {
+            throw new IllegalArgumentException("그룹을 탈퇴 해 주세요.");
         }
         return member;
     }

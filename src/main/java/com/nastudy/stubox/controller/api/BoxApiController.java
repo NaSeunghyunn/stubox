@@ -2,6 +2,7 @@ package com.nastudy.stubox.controller.api;
 
 import com.nastudy.stubox.config.auth.PrincipalDetail;
 import com.nastudy.stubox.controller.form.CreateBoxForm;
+import com.nastudy.stubox.domain.TeamRole;
 import com.nastudy.stubox.dto.BoxDto;
 import com.nastudy.stubox.dto.BoxResponse;
 import com.nastudy.stubox.dto.BoxSearchCond;
@@ -9,8 +10,6 @@ import com.nastudy.stubox.service.CardBoxService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/box")
@@ -21,6 +20,10 @@ public class BoxApiController {
 
     @GetMapping()
     public BoxResponse search(@AuthenticationPrincipal PrincipalDetail principal) {
+        if (principal.getTeamRole() == TeamRole.UNAPPROVED) {
+            return searchMyBox(principal);
+        }
+
         BoxSearchCond searchCond = BoxSearchCond
                 .builder()
                 .memberId(principal.getId())

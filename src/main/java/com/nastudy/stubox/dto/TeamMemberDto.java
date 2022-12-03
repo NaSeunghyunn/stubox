@@ -7,11 +7,13 @@ import lombok.Data;
 public class TeamMemberDto {
     private Long id;
     private String name;
+    private String profile;
 
     public static TeamMemberDto of(Member member) {
         TeamMemberDto teamMemberDto = new TeamMemberDto();
         teamMemberDto.setId(member.getId());
         teamMemberDto.setName(member.getName());
+        teamMemberDto.setProfile(member.getProfile());
         return teamMemberDto;
     }
 }

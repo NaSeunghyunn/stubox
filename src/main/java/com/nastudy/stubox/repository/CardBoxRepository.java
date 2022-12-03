@@ -1,5 +1,6 @@
 package com.nastudy.stubox.repository;
 
+import com.nastudy.stubox.domain.TeamRole;
 import com.nastudy.stubox.dto.BoxDto;
 import com.nastudy.stubox.dto.QBoxDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -31,7 +32,7 @@ public class CardBoxRepository {
     public List<BoxDto> searchByTeam(Long teamId) {
         return queryFactory.select(new QBoxDto(cardBox.id, cardBox.name))
                 .from(team)
-                .join(member).on(member.team.eq(team))
+                .join(member).on(member.team.eq(team), member.teamRole.ne(TeamRole.UNAPPROVED))
                 .join(cardBox).on(cardBox.member.eq(member))
                 .where(
                         team.id.eq(teamId))

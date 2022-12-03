@@ -1,5 +1,5 @@
 package com.nastudy.stubox.domain;
 
 public enum TeamRole {
-    NONE, MEMBER, MASTER
+    NONE, MEMBER, MASTER, UNAPPROVED
 }

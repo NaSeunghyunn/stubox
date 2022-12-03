@@ -26,7 +26,10 @@ public class Auth2Service {
     }
 
     public PrincipalDetail refresh(PrincipalDetail principal) {
-        Member member = memberRepository.findById(principal.getId()).orElseThrow(() -> new IllegalArgumentException("다시 로그인 해주세요."));
+        Member member = memberRepository.findMember(principal.getId());
+        if(member == null){
+            throw new IllegalArgumentException("다시 로그인 해주세요.");
+        }
         if (refreshTeam(member, principal)) {
             return modifyMember(member);
         }

@@ -2,8 +2,6 @@ package com.nastudy.stubox.controller;
 
 import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.config.auth.PrincipalDetail;
-import com.nastudy.stubox.domain.Category;
-import com.nastudy.stubox.domain.TeamRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -12,19 +10,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor
-@RequestMapping("/group")
+@RequestMapping("/myPage")
 @Controller
-public class StudyGroupController {
+public class MyPageController {
 
     private final Auth2Service auth2Service;
 
     @GetMapping()
-    public String init(Model model, @AuthenticationPrincipal PrincipalDetail principal){
+    public String init(@AuthenticationPrincipal PrincipalDetail principal, Model model) {
         principal = auth2Service.refresh(principal);
-        model.addAttribute("teamRole", principal.getTeamRole());
+        model.addAttribute("profile", principal.getProfile());
+        model.addAttribute("memberName", principal.getName());
         model.addAttribute("teamName", principal.getTeamName());
-        model.addAttribute("categories", Category.values());
-        model.addAttribute("disableReq",principal.getTeamRole() != TeamRole.NONE);
-        return "studyGroup";
+        model.addAttribute("teamRole", principal.getTeamRole());
+        return "myPage";
     }
 }

@@ -45,9 +45,9 @@ function addItem(id, name, selectBoxId) {
     // 이름버튼 생성
     let nameBtn = "<a href='/card/init/" + id + "' role='button' class='btn btn-outline-success box' style='width: 90%;'>" + name + "</a>";
     if (id === selectBoxId) {
-            nameBtn = "<a href='/card/init/" + id + "' role='button' class='btn btn-success box' style='width: 90%;'>" + name + "</a>";
+        nameBtn = "<a href='/card/init/" + id + "' role='button' class='btn btn-success box' style='width: 90%;'>" + name + "</a>";
 
-        }
+    }
     // 선택버튼 생성
     let selectBtn = "<input type='button' onclick='selectBox(this," + id + ")' class='btn btn-outline-success' value='선택'>";
 

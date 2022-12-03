@@ -24,6 +24,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             member = Member.builder()
                     .name(oAuth2User.getAttribute("name"))
                     .email(oAuth2User.getAttribute("email"))
+                    .profile(oAuth2User.getAttribute("picture"))
                     .provider(userRequest.getClientRegistration().getRegistrationId())
                     .providerId(oAuth2User.getName())
                     .build();

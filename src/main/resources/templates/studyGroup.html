@@ -4,16 +4,26 @@
 <head th:replace="/fragments/header.html :: link_header(~{::title}, ~{::style})">
     <title>스터디 그룹</title>
     <style>
-        .container a {
+        .a-link a {
             text-decoration: none;
             color: #757575;
         }
 
-        .container a:hover {
+        .a-link a:hover {
             background-color: #e3e3e3;
             border-radius: 43px;
             padding: 0.5rem;
             color: #757575;
+        }
+
+        #contents a {
+            text-decoration: none;
+            color: #404143;
+        }
+
+        #contents a:hover {
+            font-weight: bold;
+            color: #212529;
         }
 
         select {
@@ -62,6 +72,7 @@
             width: 60%;
             border-radius: 43px;
             margin: 0 auto;
+            padding: 1rem;
         }
 
         #contents ul {
@@ -79,7 +90,8 @@
         }
 
         #req-btn {
-            transform: translateX(-30px);
+            transform: translateX(-10px);
+            border-radius: 43px;
         }
 
         #content-div {
@@ -104,7 +116,7 @@
 <body>
     <div th:replace="/fragments/nav.html :: top-nav"></div>
     <div class="container text-center">
-        <div class="d-flex justify-content-center pb-4">
+        <div class="d-flex justify-content-center pb-4 a-link">
             <div th:if="${T(com.nastudy.stubox.domain.TeamRole).MASTER} == ${teamRole}">
                 <a href="/post" role="button" class="px-2">모집글 작성</a>
             </div>
@@ -116,6 +128,9 @@
             </div>
             <div th:if="${T(com.nastudy.stubox.domain.TeamRole).MEMBER} == ${teamRole}">
                 <a href="/team/my" role="button" class="px-2">나의 그룹</a>
+            </div>
+            <div th:if="${T(com.nastudy.stubox.domain.TeamRole).UNAPPROVED} == ${teamRole}">
+                <a role="button" class="px-2" onclick="api.cancel();" th:text="|${teamName}그룹 신청 취소|">그룹 신청 취소</a>
             </div>
         </div>
         <div id="condition">
@@ -137,44 +152,14 @@
             </div>
         </div>
         <div id="contents" class="mb-5">
-            <ul>
-                <li>
-                    <div class="group-row d-flex justify-content-around">
-                        <div>
-                            <div><span style="font-size: 0.7rem;">test</span><span
-                                    style="font-size: 0.7rem; padding: 0.5rem;">언어
-                                    영어</span></div>
-                            <div>
-                                <span style="font-size: 1.7rem;">sdfsdf</span>
-                            </div>
-                        </div>
-                        <div class="req-btn">
-                            <input type="button" class="btn btn-outline-success" value="신청">
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="group-row d-flex justify-content-around">
-                        <div>
-                            <div><span style="font-size: 0.7rem;">test2</span><span
-                                    style="font-size: 0.7rem; padding: 0.5rem;">언어
-                                    영어</span></div>
-                            <div>
-                                <span style="font-size: 1.7rem;">sdfsdf2</span>
-                            </div>
-                        </div>
-                        <div class="req-btn">
-                            <input type="button" class="btn btn-outline-success" value="신청">
-                        </div>
-                    </div>
-                </li>
-            </ul>
+            <ul></ul>
             <input type="button" id="moreBtn" class="btn btn-outline-primary" onclick="api.search();" value="더보기">
         </div>
 
     </div>
 
     <input type="hidden" id="lastPostId">
+    <input type="hidden" id="disableReq" th:value="${disableReq}">
 </body>
 <script src="/js/common.js"></script>
 <script src="/js/studyGroup.js"></script>

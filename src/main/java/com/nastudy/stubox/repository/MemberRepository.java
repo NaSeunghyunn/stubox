@@ -13,10 +13,15 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m, t from Member m left join m.team t where m.providerId = :providerId")
     Member findAuthentication(@Param("providerId") String providerId);
 
+    @Query("select m, t from Member m left join m.team t where m.id = :id")
+    Member findMember(@Param("id") Long id);
+
     @Query("select cb.id from Member m join m.cardBox cb where m.id = :id")
     Long findSelectedBoxId(@Param("id") Long id);
 
     List<Member> findByTeam(Team team);
+
+    boolean existsByName(String name);
 
     @Modifying
     @Query("update Member m set m.team = null, m.teamRole = com.nastudy.stubox.domain.TeamRole.NONE where m.team = :team")

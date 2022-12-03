@@ -17,6 +17,7 @@ public class MyTeamDto {
     private List<Category> categories;
     private List<TeamMemberDto> teamMembers;
     private List<TeamMemberDto> teamManagers;
+    private List<TeamMemberDto> applicants;
 
     public static MyTeamDto of(Team team, List<Member> members) {
         MyTeamDto myTeamDto = new MyTeamDto();
@@ -34,6 +35,11 @@ public class MyTeamDto {
                 .map(TeamMemberDto::of)
                 .collect(Collectors.toList());
         myTeamDto.setTeamManagers(teamManagers);
+        List<TeamMemberDto> applicants = members.stream()
+                .filter(m -> m.getTeamRole() == TeamRole.UNAPPROVED)
+                .map(TeamMemberDto::of)
+                .collect(Collectors.toList());
+        myTeamDto.setApplicants(applicants);
         return myTeamDto;
     }
 }

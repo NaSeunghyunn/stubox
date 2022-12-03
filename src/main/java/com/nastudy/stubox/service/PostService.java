@@ -3,6 +3,7 @@ package com.nastudy.stubox.service;
 import com.nastudy.stubox.controller.form.PostSaveForm;
 import com.nastudy.stubox.domain.entity.Posts;
 import com.nastudy.stubox.domain.entity.Team;
+import com.nastudy.stubox.dto.PostDetailDto;
 import com.nastudy.stubox.dto.PostsCond;
 import com.nastudy.stubox.dto.PostsResponse;
 import com.nastudy.stubox.repository.PostJpaRepository;
@@ -30,5 +31,11 @@ public class PostService {
     @Transactional(readOnly = true)
     public PostsResponse findPosts(PostsCond cond) {
         return new PostsResponse(postRepository.findPosts(cond));
+    }
+
+    @Transactional(readOnly = true)
+    public PostDetailDto findPostDetail(Long id){
+        Posts posts = postJpaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("모집글이 존재하지 않습니다."));
+        return new PostDetailDto(posts);
     }
 }

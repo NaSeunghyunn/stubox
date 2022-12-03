@@ -1,10 +1,7 @@
 package com.nastudy.stubox.controller.api;
 
 import com.nastudy.stubox.config.auth.PrincipalDetail;
-import com.nastudy.stubox.controller.form.TeamAuthForm;
-import com.nastudy.stubox.controller.form.TeamExpelForm;
-import com.nastudy.stubox.controller.form.TeamSaveForm;
-import com.nastudy.stubox.controller.form.TeamUpdateForm;
+import com.nastudy.stubox.controller.form.*;
 import com.nastudy.stubox.domain.TeamRole;
 import com.nastudy.stubox.dto.MyTeamDto;
 import com.nastudy.stubox.service.TeamService;
@@ -31,17 +28,32 @@ public class TeamApiController {
     }
 
     @PutMapping("/auth")
-    public Long auth(@RequestBody TeamAuthForm form, @AuthenticationPrincipal PrincipalDetail principal){
+    public Long auth(@RequestBody TeamAuthForm form, @AuthenticationPrincipal PrincipalDetail principal) {
         hasTeam(principal.getTeamId());
         checkMaster(principal.getTeamRole());
-        return teamService.auth(form, principal.getTeamId());
+        return teamService.auth(form.getMemberId(), principal.getTeamId());
     }
 
     @PutMapping("/expel")
     public Long expel(@RequestBody TeamExpelForm form, @AuthenticationPrincipal PrincipalDetail principal) {
         hasTeam(principal.getTeamId());
         checkMaster(principal.getTeamRole());
-        return teamService.expel(form, principal.getTeamId());
+        return teamService.expel(form.getMemberId(), principal.getTeamId());
+    }
+
+    @PutMapping("/approval")
+    public Long approval(@RequestBody TeamApprovalForm form, @AuthenticationPrincipal PrincipalDetail principal) {
+        return teamService.approval(form.getMemberId(), principal.getTeamId());
+    }
+
+    @PutMapping("/refuse")
+    public Long refuse(@RequestBody TeamRefuseForm form, @AuthenticationPrincipal PrincipalDetail principal) {
+        return teamService.refuse(form.getMemberId(), principal.getTeamId());
+    }
+
+    @PutMapping("/cancel")
+    public Long cancel(@AuthenticationPrincipal PrincipalDetail principal) {
+        return teamService.cancel(principal.getId(), principal.getTeamId());
     }
 
     @PutMapping("/withdrawal")
@@ -54,6 +66,11 @@ public class TeamApiController {
         hasTeam(principal.getTeamId());
         checkMaster(principal.getTeamRole());
         return teamService.update(form, principal.getTeamId());
+    }
+
+    @PostMapping("/req")
+    public Long reqTeam(@RequestBody TeamReqForm form, @AuthenticationPrincipal PrincipalDetail principal) {
+        return teamService.req(principal.getId(), form.getTeamName());
     }
 
     @DeleteMapping()

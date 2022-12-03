@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/header.html :: link_header(~{::title}, ~{::style})">
+    <title>그룹원 모집글</title>
+    <style>
+        .grey-bottom-line {
+            border-bottom: 1px solid #c7c7c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div th:replace="/fragments/nav.html :: top-nav"></div>
+    <div class="container">
+        <div class="p-2 grey-bottom-line">
+            <input type="button" class="btn btn-success" onclick="api.req()" value="신청" th:disabled="${disableReq}">
+        </div>
+        <div class="p-2">
+            <input type="text" id="title" style="width:100%; cursor: auto" placeholder=" 모집글 제목을 입력하세요" readonly>
+        </div>
+        <div class="p-2">
+            <textarea id="content" style="width:100%; cursor: auto; height: 30rem;" placeholder=" 그룹설명을 입력해주세요"
+                readonly></textarea>
+        </div>
+    </div>
+    <input type="hidden" id="id" th:value="${id}">
+    <input type="hidden" id="teamName" th:value="${teamName}">
+</body>
+<script src="/js/common.js"></script>
+<script src="/js/postDetail.js"></script>
+
+</html>

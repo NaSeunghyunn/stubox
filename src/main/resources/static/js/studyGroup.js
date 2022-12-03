@@ -1,3 +1,5 @@
+const MAX_LENGTH = window.innerWidth < 767 ? window.innerWidth * 0.8 / 32 - 1 : window.innerWidth > 992 ? window.innerWidth * 0.5 / 32 : window.innerWidth * 0.4 / 32;
+
 let api = {
     search: function () {
         let url = "/posts";
@@ -10,6 +12,25 @@ let api = {
         commonMethod.fetchGet(url, params)
             .then(data => drawPosts(data))
             .then(data => moreBtn(data))
+            .catch(err => false);
+    },
+
+    req: function (teamName) {
+        let url = "/team/req";
+        let body = {
+            teamName: teamName
+        };
+
+        commonMethod.fetchPost(url, body)
+            .then(() => location.href = "/group")
+            .catch(err => false);
+    },
+
+    cancel: function () {
+        let url = "/team/cancel";
+
+        commonMethod.fetch(url, "PUT")
+            .then(() => location.href = "/group")
             .catch(err => false);
     }
 }
@@ -54,13 +75,15 @@ function drawPosts(data) {
         let $divPost = $(divPost);
         $divPost.css("text-align", "left");
 
-        let spanTitle = document.createElement('span');
-        let $spanTitle = $(spanTitle);
-        $spanTitle.css("font-size", "1.7rem");
-        let title = item.title.length >13 ? item.title.slice(0,13)+"...":item.title
-        $spanTitle.text(title);
+        let aTitle = document.createElement('a');
+        let $aTitle = $(aTitle);
+        $aTitle.attr("href", "/post/" + item.postId + "/" + item.teamName);
+        $aTitle.css("font-size", "1.7rem");
+        $aTitle.css("display", "inline-block");
+        let title = item.title.length > MAX_LENGTH ? item.title.slice(0, MAX_LENGTH) + "..." : item.title
+        $aTitle.text(title);
 
-        $divPost.append($spanTitle);
+        $divPost.append($aTitle);
         $divContent.append($divTeam).append($divPost);
 
         let divBtn = document.createElement('div');
@@ -72,6 +95,8 @@ function drawPosts(data) {
         $reqBtn.attr("type", "button");
         $reqBtn.attr("class", "btn btn-outline-success");
         $reqBtn.attr("id", "req-btn");
+        $reqBtn.attr("onclick", "api.req('" + item.teamName + "')");
+        $reqBtn.attr("disabled", $("#disableReq").val() == "true");
         $reqBtn.val("신청");
 
         $divBtn.append($reqBtn);

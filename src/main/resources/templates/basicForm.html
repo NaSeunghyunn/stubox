@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/header.html :: link_header(~{::title}, ~{::style})">
+    <title>태스트</title>
+    <style>
+        @media (max-width: 767px) {
+            #cond {
+                width: 100% !important;
+            }
+        }
+
+        .add-btn {
+            font-weight: bold;
+            min-width: 34px;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="/fragments/nav.html :: top-nav"></div>
+    <div class="container">
+    </div>
+
+</body>
+<script src="/js/common.js"></script>
+<script src="/js/####"></script>
+
+</html>

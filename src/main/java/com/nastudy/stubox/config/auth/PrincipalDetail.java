@@ -27,8 +27,16 @@ public class PrincipalDetail implements OAuth2User {
         return member.getTeam() == null ? null : member.getTeam().getId();
     }
 
-    public TeamRole getTeamRole(){
+    public String getTeamName() {
+        return member.getTeam() == null ? null : member.getTeam().getName();
+    }
+
+    public TeamRole getTeamRole() {
         return member.getTeamRole();
+    }
+
+    public String getProfile() {
+        return member.getProfile();
     }
 
     @Override
