@@ -1,6 +1,7 @@
 package com.nastudy.stubox.dto;
 
 import com.nastudy.stubox.domain.entity.CardBox;
+import com.nastudy.stubox.domain.entity.Member;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -14,19 +15,24 @@ import java.util.stream.Collectors;
 public class BoxDto {
     private Long id;
     private String name;
+    private String profile;
+    private String author;
 
     @Builder
     @QueryProjection
-    public BoxDto(Long id, String name) {
+    public BoxDto(Long id, String name, String profile, String author) {
         this.id = id;
         this.name = name;
+        this.profile = profile;
+        this.author = author;
     }
 
-    public static BoxDto of(CardBox cardBox) {
-        return BoxDto.builder().id(cardBox.getId()).name(cardBox.getName()).build();
-    }
-
-    public static List<BoxDto> of(List<CardBox> cardBoxes) {
-        return cardBoxes.stream().map(BoxDto::of).collect(Collectors.toList());
+    public static BoxDto of(CardBox cardBox, Member member) {
+        return BoxDto.builder()
+                .id(cardBox.getId())
+                .name(cardBox.getName())
+                .profile(member.getProfile())
+                .author(member.getName())
+                .build();
     }
 }

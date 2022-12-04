@@ -37,12 +37,12 @@ public class CardService {
         return new CardsDto(cardBox.getName(), cards);
     }
 
-    public CardDto save(CardSaveForm form) {
+    public CardDto save(CardSaveForm form, Long memberId) {
         if (cardRepository.exists(form)) {
             throw new IllegalStateException("키워드 중복입니다");
         }
 
-        CardBox cardBox = cardBoxJpaRepository.getReferenceById(form.getBoxId());
+        CardBox cardBox = myCardBox(form.getBoxId(), memberId);
         Card card = Card.builder()
                 .keyword(form.getKeyword())
                 .concept(form.getConcept())
@@ -52,14 +52,27 @@ public class CardService {
         return CardDto.of(card);
     }
 
-    public void changeBoxName(CardUpdateForm form) {
-        CardBox cardBox = cardBoxJpaRepository.getReferenceById(form.getBoxId());
+    public void changeBoxName(CardUpdateForm form, Long memberId) {
+        CardBox cardBox = myCardBox(form.getBoxId(), memberId);
         cardBox.changeName(form.getBoxName());
     }
 
-    public void delete(CardDeleteForm form) {
-        Card card = cardJpaRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+    public void delete(CardDeleteForm form, Long memberId) {
+        Card card = cardRepository.findMyCard(form.getId(), memberId);
+        if (card == null) {
+            throw new IllegalArgumentException("수정 권한이 없는 박스입니다.");
+        }
+
         cardTestJpaRepository.deleteByCard(card);
         cardJpaRepository.deleteById(form.getId());
+    }
+
+    private CardBox myCardBox(Long boxId, Long memberId) {
+        CardBox cardBox = cardBoxJpaRepository.findCardBox(boxId);
+        Long boxAuthor = cardBox.getMember().getId();
+        if (boxAuthor != memberId) {
+            throw new IllegalArgumentException("수정 권한이 없는 박스입니다.");
+        }
+        return cardBox;
     }
 }

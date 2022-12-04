@@ -26,9 +26,6 @@ public class Member extends BaseEntity {
     private String provider;
     @Column(nullable = false, unique = true)
     private String providerId;
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "select_box_id")
-    private CardBox cardBox;
     @Enumerated(EnumType.STRING)
     private TeamRole teamRole = TeamRole.NONE;
 
@@ -41,10 +38,6 @@ public class Member extends BaseEntity {
         this.team = team;
         this.provider = provider;
         this.providerId = providerId;
-    }
-
-    public void selectBox(CardBox cardBox) {
-        this.cardBox = cardBox;
     }
 
     public void joinTeam(Team team, TeamRole teamRole) {

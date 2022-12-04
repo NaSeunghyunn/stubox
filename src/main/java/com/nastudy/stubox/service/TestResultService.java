@@ -2,7 +2,6 @@ package com.nastudy.stubox.service;
 
 import com.nastudy.stubox.controller.form.TestResultForm;
 import com.nastudy.stubox.dto.*;
-import com.nastudy.stubox.repository.MemberRepository;
 import com.nastudy.stubox.repository.TestResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,11 +17,9 @@ import java.util.stream.Collectors;
 @Service
 public class TestResultService {
     private final TestResultRepository testResultRepository;
-    private final MemberRepository memberRepository;
 
     public TestResultResponse findTestResults(TestResultForm form, Long memberId) {
-        Long selectedBoxId = memberRepository.findSelectedBoxId(memberId);
-        TestResultCond cond = form.toCond(memberId, selectedBoxId);
+        TestResultCond cond = form.toCond(memberId);
         List<TestResultDto> testResults = testResultRepository.findTestResults(cond);
         Map<String, List<TestResultContent>> testResultsMap = testResults
                 .stream()

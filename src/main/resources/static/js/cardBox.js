@@ -14,7 +14,7 @@ let api = {
         let body = {
             name: $("#boxName").val()
         };
-        commonMethod.fetchPost(url, body).then(data => addItem(data.id, data.name)).catch(err => false);
+        commonMethod.fetchPost(url, body).then(data => addItem(data)).catch(err => false);
     },
 
     select: function (id) {
@@ -28,41 +28,76 @@ let api = {
         let $contents = $("#contents");
         $contents.empty();
         let selectBoxId = data.selectBoxId;
-        $(data.boxes).each(function (index, item) {
-            addItem(item.id, item.name, selectBoxId);
+        $(data).each(function (index, item) {
+            addItem(item);
         });
+    },
+
+    remove: function(id) {
+        let url = "/box/" + id;
+        commonMethod.fetch(url, "DELETE")
+        .then(() => window.location.reload())
+        .catch(err => false);
     }
 }
 
-function addItem(id, name, selectBoxId) {
+function addItem(data) {
     // div블럭 생성
     let div = "<div class='mt-2'></div>";
     let $div = $(div);
 
     // 버튼그룹 생성
-    let btnGroup = "<div class='btn-group' style='width: 38.5rem'></div>";
+    let btnGroup = "<div class='btn-group'></div>";
     let $btnGroup = $(btnGroup);
+    //테스트영역
+    let testArea = "<div class='test-area'></div>";
+    let $testArea = $(testArea);
+    // 박스영역
+    let boxArea = "<div class='box-area'></div>";
+    let $boxArea = $(boxArea);
+    // 작성자 표시용 div블럭
+    let divAuthor = "<div></div>";
+    let $divAuthor = $(divAuthor);
+    $divAuthor.css("text-align", "left");
+    // 작성자 프로필사진
+    let imgProfile = document.createElement('img');
+    let $imgProfile = $(imgProfile);
+    $imgProfile.attr("class", "img-profile")
+    $imgProfile.attr("src", data.profile);
+    // 작성자 이름
+    let author = document.createElement('span');
+    $author = $(author);
+    $author.text(data.author);
+    $divAuthor.append($imgProfile).append(author);
+
+    // 박스이름영역 생성
+    let divBoxName = "<div style='float: left;'></div>";
+    let $divBoxName = $(divBoxName);
     // 이름버튼 생성
-    let nameBtn = "<a href='/card/init/" + id + "' role='button' class='btn btn-outline-success box' style='width: 90%;'>" + name + "</a>";
-    if (id === selectBoxId) {
-        nameBtn = "<a href='/card/init/" + id + "' role='button' class='btn btn-success box' style='width: 90%;'>" + name + "</a>";
+    let nameBtn = "<a href='/card/init/" + data.id + "' role='button' class='box-title'>" + data.name + "</a>";
+    $divBoxName.append(nameBtn);
+    // 박스영역 조합
+    $boxArea.append($divAuthor).append($divBoxName);
+    // 테스트버튼 생성
+    let testBtn = "<button type='button' class='sel-btn' onclick='selectBox("+data.id+")'><img src='/img/test_icon.png'></btn>";
+    // 삭제버튼 생성
+    let delBtn = "<button type='button' class='del-btn' onclick='api.remove("+data.id+")'><img src='/img/delete_icon.png'></btn>";
 
-    }
-    // 선택버튼 생성
-    let selectBtn = "<input type='button' onclick='selectBox(this," + id + ")' class='btn btn-outline-success' value='선택'>";
+    let btnArea = "<div></div>";
+    let $btnArea = $(btnArea);
+    $btnArea.css("align-self","center");
+    $btnArea.append(testBtn).append(delBtn);
 
+    //테스트영역 조합
+    $testArea.append($boxArea).append($btnArea);
     // contents
-    let $contents = $("#contents");
-    $btnGroup.append(nameBtn).append(selectBtn);
+    $btnGroup.append($testArea);
     $div.append($btnGroup);
-    $contents.append($div);
+    $("#contents").append($div);
 }
 
-function selectBox(target, id) {
-    $(".box").attr("class", "btn btn-outline-success box");
-    $box = $(target).prev(".box");
-    $box.attr("class", "btn btn-success box");
-    api.select(id);
+function selectBox(id) {
+    location.href = "/test/"+id;
 }
 
 api.search();

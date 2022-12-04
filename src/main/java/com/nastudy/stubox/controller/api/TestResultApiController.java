@@ -6,6 +6,7 @@ import com.nastudy.stubox.dto.TestResultResponse;
 import com.nastudy.stubox.service.TestResultService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class TestResultApiController {
     private final TestResultService testResultService;
 
     @GetMapping()
-    public TestResultResponse findTestResults(TestResultForm form, @AuthenticationPrincipal PrincipalDetail principal) {
-        return testResultService.findTestResults(form, principal.getId());
+    public TestResultResponse findTestResults(@Validated TestResultForm form, @AuthenticationPrincipal PrincipalDetail principal) {
+        return testResultService.findTestResults(form, principal.getMemberId());
     }
 }

@@ -8,6 +8,7 @@ import com.nastudy.stubox.dto.PostsResponse;
 import com.nastudy.stubox.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class PostApiController {
     private final PostService postService;
 
     @PostMapping()
-    public Long save(@RequestBody PostSaveForm form, @AuthenticationPrincipal PrincipalDetail principal) {
+    public Long save(@RequestBody @Validated PostSaveForm form, @AuthenticationPrincipal PrincipalDetail principal) {
         principal.checkMaster();
         principal.hasTeam();
         return postService.save(form, principal.getTeamId());

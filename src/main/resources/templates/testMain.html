@@ -8,6 +8,8 @@
             padding: 2rem 6rem !important;
             min-width: 15rem;
             margin: 0.5rem 0;
+            white-space: break-spaces;
+            min-height: 115px;
         }
     </style>
 </head>
@@ -18,20 +20,21 @@
     <div class="container text-center">
         <div class="align-middle">
             <div>
-                <a href="/test/1" role="button" class="btn btn-outline-success">레벨1</a>
-                <a href="/test/2" role="button" class="btn btn-outline-success">레벨2</a>
+                <a th:href="@{|/test/${boxId}/1|}" role="button" class="btn btn-outline-success" id="level1">레벨1</a>
+                <a th:href="@{|/test/${boxId}/2|}" role="button" class="btn btn-outline-success" id="level2">레벨2</a>
             </div>
             <div>
-                <a href="/test/3" role="button" class="btn btn-outline-success">레벨3</a>
-                <a href="/test/4" role="button" class="btn btn-outline-success">레벨4</a>
+                <a th:href="@{|/test/${boxId}/3|}" class="btn btn-outline-success" id="level3">레벨3</a>
+                <a th:href="@{|/test/${boxId}/4|}" class="btn btn-outline-success" id="level4">레벨4</a>
             </div>
             <div>
-                <a href="/test/5" role="button" class="btn btn-outline-success">레벨5</a>
-                <a href="/test/result" role="button" class="btn btn-outline-warning">결과</a>
+                <a th:href="@{|/test/${boxId}/5|}" role="button" class="btn btn-outline-success" id="level5">레벨5</a>
+                <a th:href="@{|/test/result/${boxId}|}" role="button" class="btn btn-outline-warning">결과</a>
             </div>
         </div>
     </div>
+    <input type="hidden" id="boxId" th:value="${boxId}">
 </body>
 <script src="/js/common.js"></script>
-
+<script src="/js/testMain.js"></script>
 </html>

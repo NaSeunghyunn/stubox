@@ -8,7 +8,8 @@ let api = {
         let params = {
             to: $("#to").val(),
             from: $("#from").val(),
-            testResult: testResult
+            testResult: testResult,
+            boxId: $("#boxId").val()
         }
 
         let url = "/test/result";

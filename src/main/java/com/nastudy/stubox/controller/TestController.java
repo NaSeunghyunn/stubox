@@ -10,13 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TestController {
 
-    @GetMapping()
-    public String testMain(){
+    @GetMapping("/{boxId}")
+    public String testMain(@PathVariable("boxId") Long boxId, Model model) {
+        model.addAttribute("boxId", boxId);
         return "testMain";
     }
 
-    @GetMapping("/{level}")
-    public String test(@PathVariable(name = "level") int level, Model model){
+    @GetMapping("/{boxId}/{level}")
+    public String test(@PathVariable("boxId") Long boxId, @PathVariable(name = "level") int level, Model model) {
+        model.addAttribute("boxId", boxId);
         model.addAttribute("level", level);
         return "test";
     }

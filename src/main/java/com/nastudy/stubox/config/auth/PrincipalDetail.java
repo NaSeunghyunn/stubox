@@ -2,6 +2,7 @@ package com.nastudy.stubox.config.auth;
 
 import com.nastudy.stubox.domain.TeamRole;
 import com.nastudy.stubox.domain.entity.Member;
+import com.nastudy.stubox.domain.entity.Team;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -11,32 +12,23 @@ import java.util.Map;
 
 @Getter
 public class PrincipalDetail implements OAuth2User {
-    private Member member;
+    private Long memberId;
+    private String memberName;
+    private Long teamId;
+    private String teamName;
+    private TeamRole teamRole;
+    private String profile;
     private Map<String, Object> attributes;
 
     public PrincipalDetail(Member member, Map<String, Object> attributes) {
-        this.member = member;
+        this.memberId = member.getId();
+        this.memberName = member.getName();
+        Team team = member.getTeam();
+        this.teamId = team == null ? null : team.getId();
+        this.teamName = team == null ? null : team.getName();
+        this.teamRole = member.getTeamRole();
+        this.profile = member.getProfile();
         this.attributes = attributes;
-    }
-
-    public Long getId() {
-        return member.getId();
-    }
-
-    public Long getTeamId() {
-        return member.getTeam() == null ? null : member.getTeam().getId();
-    }
-
-    public String getTeamName() {
-        return member.getTeam() == null ? null : member.getTeam().getName();
-    }
-
-    public TeamRole getTeamRole() {
-        return member.getTeamRole();
-    }
-
-    public String getProfile() {
-        return member.getProfile();
     }
 
     @Override
@@ -51,14 +43,14 @@ public class PrincipalDetail implements OAuth2User {
 
     @Override
     public String getName() {
-        return member.getName();
+        return memberName;
     }
 
     public void checkMaster() {
-        if (member.getTeamRole() != TeamRole.MASTER) throw new IllegalStateException("관리자가 아닙니다.");
+        if (teamRole != TeamRole.MASTER) throw new IllegalStateException("관리자가 아닙니다.");
     }
 
     public void hasTeam() {
-        if (member.getTeam() == null) throw new IllegalStateException("팀이 없습니다.");
+        if (teamId == null) throw new IllegalStateException("팀이 없습니다.");
     }
 }

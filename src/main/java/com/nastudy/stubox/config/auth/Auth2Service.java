@@ -8,8 +8,10 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class Auth2Service {
     private final MemberRepository memberRepository;
@@ -26,7 +28,7 @@ public class Auth2Service {
     }
 
     public PrincipalDetail refresh(PrincipalDetail principal) {
-        Member member = memberRepository.findMember(principal.getId());
+        Member member = memberRepository.findMember(principal.getMemberId());
         if(member == null){
             throw new IllegalArgumentException("다시 로그인 해주세요.");
         }

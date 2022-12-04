@@ -2,7 +2,7 @@ let api= {
     modName: function(){
         let url="/member";
         let body={
-            memberName: $("memberName").val()
+            memberName: $("#memberName").val()
         }
         commonMethod.fetch(url, "PUT", body)
                     .then(() => window.location.reload())
