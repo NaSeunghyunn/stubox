@@ -91,7 +91,7 @@ function setTeamManagers(data) {
 
         let imgProfile = document.createElement('img');
         let $imgProfile = $(imgProfile);
-        $imgProfile.attr("src",item.profile);
+        $imgProfile.attr("src", item.profile);
 
         let spanName = document.createElement('span');
         let $spanName = $(spanName);
@@ -112,19 +112,19 @@ function setTeamMembers(data) {
         let $div = $(div);
         $div.attr("class", "grey-bottom-line member-profile");
 
-let imgProfile = document.createElement('img');
+        let imgProfile = document.createElement('img');
         let $imgProfile = $(imgProfile);
-        $imgProfile.attr("src",item.profile);
+        $imgProfile.attr("src", item.profile);
 
         let spanName = document.createElement('span');
         let $spanName = $(spanName);
         $spanName.text(item.name);
 
         let div2 = document.createElement('div');
-                let $div2 = $(div2);
+        let $div2 = $(div2);
 
-                $div2.append($imgProfile).append($spanName);
-                $div.append($div2);
+        $div2.append($imgProfile).append($spanName);
+        $div.append($div2);
 
         if ($("#mode").val() == "manage") {
             let divBtn = document.createElement('div');
@@ -158,19 +158,19 @@ function setApplicants(data) {
         let $div = $(div);
         $div.attr("class", "grey-bottom-line member-profile");
 
-let imgProfile = document.createElement('img');
+        let imgProfile = document.createElement('img');
         let $imgProfile = $(imgProfile);
-        $imgProfile.attr("src",item.profile);
+        $imgProfile.attr("src", item.profile);
 
         let spanName = document.createElement('span');
         let $spanName = $(spanName);
         $spanName.text(item.name);
 
         let div2 = document.createElement('div');
-                let $div2 = $(div2);
+        let $div2 = $(div2);
 
-                $div2.append($imgProfile).append($spanName);
-                $div.append($div2);
+        $div2.append($imgProfile).append($spanName);
+        $div.append($div2);
 
         let divBtn = document.createElement('div');
         let $divBtn = $(divBtn);

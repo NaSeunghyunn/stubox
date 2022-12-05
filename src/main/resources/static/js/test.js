@@ -2,7 +2,7 @@ let testData;
 
 let api = {
     init: function () {
-        let url = "/test/"+$("#boxId").val()+"/" + $("#level").val();
+        let url = "/test/" + $("#boxId").val() + "/" + $("#level").val();
         commonMethod.fetchGet(url)
             .then(data => testData = data)
             .then(() => selectCard())

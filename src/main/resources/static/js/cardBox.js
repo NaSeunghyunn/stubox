@@ -33,11 +33,11 @@ let api = {
         });
     },
 
-    remove: function(id) {
+    remove: function (id) {
         let url = "/box/" + id;
         commonMethod.fetch(url, "DELETE")
-        .then(() => window.location.reload())
-        .catch(err => false);
+            .then(() => window.location.reload())
+            .catch(err => false);
     }
 }
 
@@ -79,13 +79,13 @@ function addItem(data) {
     // 박스영역 조합
     $boxArea.append($divAuthor).append($divBoxName);
     // 테스트버튼 생성
-    let testBtn = "<button type='button' class='sel-btn' onclick='selectBox("+data.id+")'><img src='/img/test_icon.png'></btn>";
+    let testBtn = "<button type='button' class='sel-btn' onclick='selectBox(" + data.id + ")'><img src='/img/test_icon.png'></btn>";
     // 삭제버튼 생성
-    let delBtn = "<button type='button' class='del-btn' onclick='api.remove("+data.id+")'><img src='/img/delete_icon.png'></btn>";
+    let delBtn = "<button type='button' class='del-btn' onclick='api.remove(" + data.id + ")'><img src='/img/delete_icon.png'></btn>";
 
     let btnArea = "<div></div>";
     let $btnArea = $(btnArea);
-    $btnArea.css("align-self","center");
+    $btnArea.css("align-self", "center");
     $btnArea.append(testBtn).append(delBtn);
 
     //테스트영역 조합
@@ -97,7 +97,7 @@ function addItem(data) {
 }
 
 function selectBox(id) {
-    location.href = "/test/"+id;
+    location.href = "/test/" + id;
 }
 
 api.search();

@@ -67,9 +67,7 @@
 
         <div class="card mt-5">
             <div class="text-center m-5 card-img">
-                <img class="card-img-top"
-                     th:src="${profile}"
-                    alt="Card image">
+                <img class="card-img-top" th:src="${profile}" alt="Card image">
             </div>
             <div class="card-body">
                 <div class="mb-3">
@@ -84,9 +82,13 @@
                     <p>나의 그룹</p>
                     <div class="nickName d-flex justify-content-between">
                         <input type="text" id="teamName" th:value="${teamName}" style="cursor:auto;" readonly>
-                        <button th:if="${T(com.nastudy.stubox.domain.TeamRole).NONE} == ${teamRole}" type="button" class="btn-cancel-team" onclick="goGroup();">가입 하러 가기</button>
-                        <button th:if="${T(com.nastudy.stubox.domain.TeamRole).UNAPPROVED} == ${teamRole}" type="button" class="btn-cancel-team" onclick="doCancelReq();">가입 신청 취소</button>
-                        <button th:if="${T(com.nastudy.stubox.domain.TeamRole).MASTER} == ${teamRole} or ${T(com.nastudy.stubox.domain.TeamRole).MEMBER} == ${teamRole}" type="button" class="btn-cancel-team" onclick="goMyGroup();">나의 그룹</button>
+                        <button th:if="${T(com.nastudy.stubox.domain.TeamRole).NONE} == ${teamRole}" type="button"
+                            class="btn-cancel-team" onclick="goGroup();">가입 하러 가기</button>
+                        <button th:if="${T(com.nastudy.stubox.domain.TeamRole).UNAPPROVED} == ${teamRole}" type="button"
+                            class="btn-cancel-team" onclick="doCancelReq();">가입 신청 취소</button>
+                        <button
+                            th:if="${T(com.nastudy.stubox.domain.TeamRole).MASTER} == ${teamRole} or ${T(com.nastudy.stubox.domain.TeamRole).MEMBER} == ${teamRole}"
+                            type="button" class="btn-cancel-team" onclick="goMyGroup();">나의 그룹</button>
                     </div>
                 </div>
             </div>

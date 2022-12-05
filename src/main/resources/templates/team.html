@@ -10,7 +10,7 @@
             border-radius: 43px;
             padding: 10px;
         }
-        
+
         .container select {
             margin-top: 10px;
         }
@@ -18,39 +18,39 @@
 </head>
 
 <body>
-<div th:replace="/fragments/nav.html :: top-nav"></div>
-<div class="container">
-    <div class="p-3">
-        <input type="text" id="name" placeholder="팀이름">
-    </div>
-    <div class="m-3">
-        <div>
-            <select class="form-select" id="category1">
-                <option value="">==카테고리1==</option>
-                <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.title}">
-                </option>
-            </select>
+    <div th:replace="/fragments/nav.html :: top-nav"></div>
+    <div class="container">
+        <div class="p-3">
+            <input type="text" id="name" placeholder="팀이름">
+        </div>
+        <div class="m-3">
+            <div>
+                <select class="form-select" id="category1">
+                    <option value="">==카테고리1==</option>
+                    <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.title}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <select class="form-select" id="category2">
+                    <option value="">==카테고리2==</option>
+                    <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.title}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <select class="form-select" id="category3">
+                    <option value="">==카테고리3==</option>
+                    <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.title}">
+                    </option>
+                </select>
+            </div>
         </div>
         <div>
-            <select class="form-select" id="category2">
-                <option value="">==카테고리2==</option>
-                <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.title}">
-                </option>
-            </select>
-        </div>
-        <div>
-            <select class="form-select" id="category3">
-                <option value="">==카테고리3==</option>
-                <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.title}">
-                </option>
-            </select>
+            <input type="button" class="btn btn-primary m-3" onclick="api.save()" value="그룹 만들기">
         </div>
     </div>
-    <div>
-        <input type="button" class="btn btn-primary m-3" onclick="api.save()" value="그룹 만들기">
-    </div>
-</div>
-    
+
 </body>
 <script src="/js/common.js"></script>
 <script src="/js/team.js"></script>
