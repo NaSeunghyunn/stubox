@@ -30,3 +30,21 @@ function doCancelReq() {
     api.cancel();
 }
 
+function profileUpload(){
+    $("#profileImageInput").click();
+    $("#profileImageInput").change(function(e){
+        let imgFile = e.target.files[0];
+
+        if(!imgFile.type.match("image.*")){
+            alert("이미지 파일이 아닙니다.");
+            return;
+        }
+
+        let formData = new FormData($("#profileImageForm")[0]);
+        let url = "/member/image";
+        commonMethod.fetchFormData(url, "PUT", formData)
+        .then(() => window.location.reload())
+        .catch(err => false);
+    })
+}
+

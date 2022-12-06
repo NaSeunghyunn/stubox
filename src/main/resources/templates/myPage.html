@@ -58,6 +58,13 @@
         .btn-cancel-team:hover {
             font-weight: bold;
         }
+
+        .btn-profile{
+            width: 100%;
+            border: 0;
+            background: #ffffff;
+            position: relative;
+        }
     </style>
 </head>
 
@@ -67,7 +74,9 @@
 
         <div class="card mt-5">
             <div class="text-center m-5 card-img">
-                <img class="card-img-top" th:src="${profile}" alt="Card image">
+                <button class="btn-profile" onclick="profileUpload();">
+                    <img class="card-img-top" th:src="${profile}" alt="Card image">
+                </button>
             </div>
             <div class="card-body">
                 <div class="mb-3">
@@ -94,6 +103,10 @@
             </div>
         </div>
     </div>
+
+    <form id="profileImageForm">
+        <input type="file" id="profileImageInput" name="profileImage" accept=".png" style="display:none;">
+    </form>
 
 </body>
 <script src="/js/common.js"></script>

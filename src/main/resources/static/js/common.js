@@ -50,6 +50,20 @@ let commonMethod = {
         }
     },
 
+    fetchFormData: async function(url, method, formData){
+        let option = {
+            method: method
+            , body: formData
+        }
+        const res = await fetch(getApiUrl(url), option);
+        const data = await res.json();
+        if (res.ok) {
+            return data;
+        } else {
+            apiError(data);
+        }
+    },
+
     back: function () {
         console.log($("#referer").val());
         $("#referer").val();

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/member")
@@ -20,5 +21,10 @@ public class MemberApiController {
     @PutMapping()
     public Long modName(@RequestBody @Validated MemberNameUpdateForm form, @AuthenticationPrincipal PrincipalDetail principal) {
         return memberService.modName(principal.getMemberId(), form.getMemberName());
+    }
+
+    @PutMapping("/image")
+    public Long modImage(MultipartFile profileImage, @AuthenticationPrincipal PrincipalDetail principal) {
+        return memberService.modProfileImage(principal.getMemberId(), profileImage);
     }
 }
