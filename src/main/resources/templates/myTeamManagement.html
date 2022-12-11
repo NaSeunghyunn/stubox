@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/header.html :: link_header(~{::title}, ~{::style})">
+<head th:replace="fragments/header.html :: link_header(~{::title}, ~{::style})">
     <title>나의그룹 관리</title>
     <style>
         #name {
@@ -60,7 +60,7 @@
 </head>
 
 <body>
-    <div th:replace="/fragments/nav.html :: top-nav"></div>
+    <div th:replace="fragments/nav.html :: top-nav"></div>
     <div class="container mb-5">
         <div class="p-3">
             <input type="text" id="name" value="팀이름팀이름팀이름팀이름팀이름팀이름팀이름팀이름팀이름팀이름팀이름팀이름" disabled readonly>

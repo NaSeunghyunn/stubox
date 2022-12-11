@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/header.html :: link_header(~{::title}, ~{::style})">
+<head th:replace="fragments/header.html :: link_header(~{::title}, ~{::style})">
     <title>태스트</title>
     <style>
         @media (max-width: 767px) {
@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div th:replace="/fragments/nav.html :: top-nav"></div>
+    <div th:replace="fragments/nav.html :: top-nav"></div>
     <div class="container">
         <div>
             <div id="cond" style="width: 50%;">

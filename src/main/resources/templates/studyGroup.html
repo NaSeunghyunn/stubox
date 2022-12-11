@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/header.html :: link_header(~{::title}, ~{::style})">
+<head th:replace="fragments/header.html :: link_header(~{::title}, ~{::style})">
     <title>스터디 그룹</title>
     <style>
         .a-link a {
@@ -114,7 +114,7 @@
 </head>
 
 <body>
-    <div th:replace="/fragments/nav.html :: top-nav"></div>
+    <div th:replace="fragments/nav.html :: top-nav"></div>
     <div class="container text-center">
         <div class="d-flex justify-content-center pb-4 a-link">
             <div th:if="${T(com.nastudy.stubox.domain.TeamRole).MASTER} == ${teamRole}">

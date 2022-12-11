@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/header.html :: link_header(~{::title},~{::style})">
+<head th:replace="fragments/header.html :: link_header(~{::title},~{::style})">
     <title>테스트</title>
     <style>
         .container a {
@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div th:replace="/fragments/nav.html :: top-nav"></div>
+    <div th:replace="fragments/nav.html :: top-nav"></div>
 
     <div class="container text-center">
         <div class="align-middle">

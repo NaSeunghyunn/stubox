@@ -34,7 +34,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디 입니다."));
 
-        String profile = fileUploader.uploadProfile(profileImage);
+        String profile = fileUploader.uploadProfileS3(profileImage);
         member.updateProfile(profile);
         auth2Service.modifyMember(member);
         return memberId;
