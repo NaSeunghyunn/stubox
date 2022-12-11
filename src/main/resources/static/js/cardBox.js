@@ -71,7 +71,7 @@ function addItem(data) {
     $divAuthor.append($imgProfile).append(author);
 
     // 박스이름영역 생성
-    let divBoxName = "<div style='float: left;'></div>";
+    let divBoxName = "<div style='text-align: left;'></div>";
     let $divBoxName = $(divBoxName);
     // 이름버튼 생성
     let nameBtn = "<a href='/card/init/" + data.id + "' role='button' class='box-title'>" + data.name + "</a>";
