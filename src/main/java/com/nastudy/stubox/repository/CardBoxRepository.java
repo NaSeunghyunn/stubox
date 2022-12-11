@@ -95,9 +95,16 @@ public class CardBoxRepository {
                         , cardBox.member.id.eq(memberId))
                 .fetch();
 
+        return getBoxDeleteDto(boxIds);
+    }
+
+    private BoxDeleteDto getBoxDeleteDto(List<BoxIdDto> boxIds) {
+        if(boxIds.isEmpty()){
+            return null;
+        }
+
         BoxDeleteDto boxDeleteDto = new BoxDeleteDto();
         boxIds.forEach(boxDeleteDto::put);
-
         return boxDeleteDto;
     }
 
