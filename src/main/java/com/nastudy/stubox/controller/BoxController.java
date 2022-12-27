@@ -16,7 +16,6 @@ public class BoxController {
 
     @GetMapping("/init")
     public String init(@AuthenticationPrincipal PrincipalDetail principal) {
-        auth2Service.refresh(principal);
         return "cardBox";
     }
 

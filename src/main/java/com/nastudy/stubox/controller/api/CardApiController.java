@@ -3,6 +3,7 @@ package com.nastudy.stubox.controller.api;
 import com.nastudy.stubox.config.auth.PrincipalDetail;
 import com.nastudy.stubox.controller.form.CardDeleteForm;
 import com.nastudy.stubox.controller.form.CardSaveForm;
+import com.nastudy.stubox.controller.form.BoxNameUpdateForm;
 import com.nastudy.stubox.controller.form.CardUpdateForm;
 import com.nastudy.stubox.dto.CardDto;
 import com.nastudy.stubox.dto.CardsDto;
@@ -29,8 +30,8 @@ public class CardApiController {
         return cardService.save(form, principal.getMemberId());
     }
 
-    @PutMapping()
-    public Long changeBoxName(@RequestBody @Validated CardUpdateForm form, @AuthenticationPrincipal PrincipalDetail principal) {
+    @PutMapping("/boxName")
+    public Long changeBoxName(@RequestBody @Validated BoxNameUpdateForm form, @AuthenticationPrincipal PrincipalDetail principal) {
         cardService.changeBoxName(form, principal.getMemberId());
         return form.getBoxId();
     }
@@ -38,6 +39,12 @@ public class CardApiController {
     @DeleteMapping()
     public Long delete(@RequestBody @Validated CardDeleteForm form, @AuthenticationPrincipal PrincipalDetail principal) {
         cardService.delete(form, principal.getMemberId());
+        return form.getId();
+    }
+
+    @PutMapping()
+    public Long update(@RequestBody @Validated CardUpdateForm form, @AuthenticationPrincipal PrincipalDetail principal){
+        cardService.update(form, principal.getMemberId());
         return form.getId();
     }
 }

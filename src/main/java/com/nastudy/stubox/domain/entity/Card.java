@@ -12,7 +12,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-public class Card extends BaseEntity{
+public class Card extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -30,5 +30,10 @@ public class Card extends BaseEntity{
         this.keyword = keyword;
         this.concept = concept;
         this.cardBox = cardBox;
+    }
+
+    public void modifyCard(String keyword, String concept) {
+        this.keyword = keyword;
+        this.concept = concept;
     }
 }

@@ -1,12 +1,9 @@
 package com.nastudy.stubox.config.auth;
 
+import com.nastudy.stubox.domain.TeamRole;
 import com.nastudy.stubox.domain.entity.Member;
 import com.nastudy.stubox.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,38 +13,32 @@ import org.springframework.transaction.annotation.Transactional;
 public class Auth2Service {
     private final MemberRepository memberRepository;
 
-    public PrincipalDetail modifyMember(Member member) {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
-        PrincipalDetail newPrincipalDetail = new PrincipalDetail(member, principalDetail.getAttributes());
-
-        OAuth2AuthenticationToken token = new OAuth2AuthenticationToken(newPrincipalDetail, newPrincipalDetail.getAuthorities(), member.getProviderId());
-        context.setAuthentication(token);
-        return newPrincipalDetail;
+    public Member findMember(Long memberId) {
+        Member member = memberRepository.findMember(memberId);
+        if (member == null) {
+            throw new IllegalArgumentException("다시 로그인 해 주세요.");
+        }
+        return member;
     }
 
-    public PrincipalDetail refresh(PrincipalDetail principal) {
-        Member member = memberRepository.findMember(principal.getMemberId());
-        if(member == null){
-            throw new IllegalArgumentException("다시 로그인 해주세요.");
-        }
-        if (refreshTeam(member, principal)) {
-            return modifyMember(member);
-        }
-        return principal;
+    public Long getTeamId(Member member) {
+        return member.getTeam() == null ? null : member.getTeam().getId();
     }
 
-    private boolean refreshTeam(Member member, PrincipalDetail principalDetail) {
+    public String getTeamName(Member member) {
+        return member.getTeam() == null ? null : member.getTeam().getName();
+    }
+
+    public void isMaster(Member member) {
+        hasTeam(member);
+        if (member.getTeamRole() != TeamRole.MASTER) {
+            throw new IllegalArgumentException("관리자가 아닙니다.");
+        }
+    }
+
+    public void hasTeam(Member member) {
         if (member.getTeam() == null) {
-            return true;
+            throw new IllegalArgumentException("팀이 없습니다.");
         }
-        if (!member.getTeam().getId().equals(principalDetail.getTeamId())) {
-            return true;
-        }
-        if (member.getTeamRole() != principalDetail.getTeamRole()) {
-            return true;
-        }
-        return false;
     }
 }

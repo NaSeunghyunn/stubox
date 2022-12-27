@@ -1,14 +1,14 @@
 package com.nastudy.stubox.service;
 
+import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.controller.form.PostSaveForm;
+import com.nastudy.stubox.domain.entity.Member;
 import com.nastudy.stubox.domain.entity.Posts;
-import com.nastudy.stubox.domain.entity.Team;
 import com.nastudy.stubox.dto.PostDetailDto;
 import com.nastudy.stubox.dto.PostsCond;
 import com.nastudy.stubox.dto.PostsResponse;
 import com.nastudy.stubox.repository.PostJpaRepository;
 import com.nastudy.stubox.repository.PostRepository;
-import com.nastudy.stubox.repository.TeamJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
     private final PostJpaRepository postJpaRepository;
     private final PostRepository postRepository;
-    private final TeamJpaRepository teamJpaRepository;
+    private final Auth2Service auth2Service;
 
-    public Long save(PostSaveForm form, Long teamId) {
-        Team team = teamJpaRepository.findById(teamId).orElseThrow(() -> new IllegalArgumentException("팀이 없습니다."));
-        Posts posts = Posts.builder().title(form.getTitle()).content(form.getContent()).team(team).build();
+    public Long save(PostSaveForm form, Long memberId) {
+        Member member = auth2Service.findMember(memberId);
+        auth2Service.isMaster(member);
+        Posts posts = Posts.builder().title(form.getTitle()).content(form.getContent()).team(member.getTeam()).build();
         postJpaRepository.save(posts);
-        return teamId;
+        return member.getTeam().getId();
     }
 
     @Transactional(readOnly = true)

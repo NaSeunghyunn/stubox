@@ -4,6 +4,7 @@ import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.config.auth.PrincipalDetail;
 import com.nastudy.stubox.domain.Category;
 import com.nastudy.stubox.domain.TeamRole;
+import com.nastudy.stubox.domain.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -20,11 +21,12 @@ public class StudyGroupController {
 
     @GetMapping()
     public String init(Model model, @AuthenticationPrincipal PrincipalDetail principal){
-        principal = auth2Service.refresh(principal);
-        model.addAttribute("teamRole", principal.getTeamRole());
-        model.addAttribute("teamName", principal.getTeamName());
+        Member member = auth2Service.findMember(principal.getMemberId());
+        model.addAttribute("teamRole", member.getTeamRole());
+        String teamName = member.getTeam() == null ? null : member.getTeam().getName();
+        model.addAttribute("teamName", teamName);
         model.addAttribute("categories", Category.values());
-        model.addAttribute("disableReq",principal.getTeamRole() != TeamRole.NONE);
+        model.addAttribute("disableReq",member.getTeamRole() != TeamRole.NONE);
         return "studyGroup";
     }
 }

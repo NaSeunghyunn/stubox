@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final FileUploader fileUploader;
-    private final Auth2Service auth2Service;
 
     public Long modName(Long memberId, String memberName) {
         Member member = memberRepository.findById(memberId)
@@ -26,7 +25,6 @@ public class MemberService {
         }
         existsMemberName(memberName);
         member.changeNickName(memberName);
-        auth2Service.modifyMember(member);
         return memberId;
     }
 
@@ -36,7 +34,6 @@ public class MemberService {
 
         String profile = fileUploader.uploadProfileS3(profileImage);
         member.updateProfile(profile);
-        auth2Service.modifyMember(member);
         return memberId;
     }
 

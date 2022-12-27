@@ -1,5 +1,6 @@
 package com.nastudy.stubox.service;
 
+import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.controller.form.TestUpdateForm;
 import com.nastudy.stubox.domain.entity.Card;
 import com.nastudy.stubox.domain.entity.CardTest;
@@ -24,7 +25,7 @@ public class TestService {
     private final CardTestRepository cardTestRepository;
     private final CardTestJpaRepository cardTestJpaRepository;
     private final TestJpaRepository testJpaRepository;
-    private final MemberRepository memberRepository;
+    private final Auth2Service auth2Service;
     private final CardJpaRepository cardJpaRepository;
     private final CardBoxRepository cardBoxRepository;
 
@@ -49,7 +50,9 @@ public class TestService {
     }
 
     @Transactional(readOnly = true)
-    public List<TestDto> findTestData(Long boxId, Long memberId, Long teamId, int level) {
+    public List<TestDto> findTestData(Long boxId, Long memberId, int level) {
+        Member member = auth2Service.findMember(memberId);
+        Long teamId = auth2Service.getTeamId(member);
         boolean isMyGroupBox = cardBoxRepository.isGroupBox(boxId, memberId, teamId);
         if (!isMyGroupBox) {
             throw new IllegalArgumentException("테스트 권한이 없는 암기박스입니다.");
@@ -82,8 +85,7 @@ public class TestService {
     }
 
     private CardTest saveCardTest(TestSaveDto saveDto) {
-        Member member = memberRepository.findById(saveDto.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("다시 로그인해주세요"));
+        Member member = auth2Service.findMember(saveDto.getMemberId());
 
         Card card = cardJpaRepository.findById(saveDto.getCardId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재 하지 않습니다."));

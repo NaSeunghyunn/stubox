@@ -14,6 +14,10 @@
             font-weight: bold;
             min-width: 34px;
         }
+
+        .modal-content{
+            transform: translateY(20%);
+        }
     </style>
 </head>
 
@@ -21,30 +25,81 @@
     <div th:replace="fragments/nav.html :: top-nav"></div>
     <div class="container">
         <div>
-            <div id="cond" style="width: 50%;">
-                <div class="input-group mb-3 cond">
+            <div id="cond" class="d-flex">
+                <div class="input-group mb-3 cond" style="width: 50%;">
                     <span class="input-group-text">박스 이름</span>
                     <input type="text" class="form-control" id="boxName" th:value="${boxName}"
-                        placeholder="input BoxName">
-                    <button class="btn btn-primary" type="button" onclick="api.changeBoxName();">이름 변경</button>
+                        placeholder="input BoxName" readonly disabled>
+                </div>
+                <div class="mx-2">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addModal">카드
+                        추가</button>
                 </div>
             </div>
         </div>
         <div class="contents pt-3" style="border-top: 1px solid #edf0f2;">
-            <div class="d-flex" id="addRow">
-                <input type="text" class="form-control btn-outline-success keyword" style="width: 30%;"
-                    placeholder="키워드">
-                <input type="text" class="form-control btn-outline-success concept" placeholder="콘셉트를 입력하세요">
-                <input type="button" onclick="api.save();" class="btn btn-success add-btn" value="+">
-                <input type="hidden" id="boxId" th:value="${boxId}">
-            </div>
-
             <div class="mt-3" id="wrap-contents">
             </div>
         </div>
-
+        <button type="button" class="d-none" id="btn-mod-modal" data-bs-toggle="modal"
+            data-bs-target="#modModal"></button>
     </div>
 
+    <!-- The Modal -->
+    <div class="modal" id="addModal">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <input type="text" class="form-control" id="add-keyword" placeholder="Keyword">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <textarea class="form-control" id="add-concept" rows="10"></textarea>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="api.save();"
+                        data-bs-dismiss="modal">추가하기</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal" id="modModal">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <input type="text" class="form-control" id="keyword" placeholder="Keyword">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <textarea class="form-control" id="concept" rows="10"></textarea>
+                    <input type="hidden" id="cardId">
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="api.updateCard();"
+                        data-bs-dismiss="modal">수정하기</button>
+                    <button type="button" class="btn btn-danger" onclick="api.delCard();"
+                        data-bs-dismiss="modal">삭제하기</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="boxId" th:value="${boxId}">
 </body>
 <script src="/js/common.js"></script>
 <script src="/js/card.js"></script>

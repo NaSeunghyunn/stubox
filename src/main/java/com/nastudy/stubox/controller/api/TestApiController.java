@@ -27,7 +27,7 @@ public class TestApiController {
 
     @GetMapping("/{boxId}/{level}")
     public List<TestDto> testData(@PathVariable("boxId") Long boxId, @PathVariable("level") int level, @AuthenticationPrincipal PrincipalDetail principal) {
-        return testService.findTestData(boxId, principal.getMemberId(), principal.getTeamId(), level);
+        return testService.findTestData(boxId, principal.getMemberId(), level);
     }
 
     @PostMapping()

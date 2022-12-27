@@ -4,6 +4,7 @@ import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.config.auth.PrincipalDetail;
 import com.nastudy.stubox.domain.Category;
 import com.nastudy.stubox.domain.TeamRole;
+import com.nastudy.stubox.domain.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,10 @@ public class TeamController {
 
     @GetMapping("/my")
     public String myTeam(Model model, @AuthenticationPrincipal PrincipalDetail principal) {
-        principal = auth2Service.refresh(principal);
-        model.addAttribute("teamRole", principal.getTeamRole());
+        Member member = auth2Service.findMember(principal.getMemberId());
+        model.addAttribute("teamRole", member.getTeamRole());
         model.addAttribute("categories", Category.values());
-        if (principal.getTeamRole() == TeamRole.MASTER) {
+        if (member.getTeamRole() == TeamRole.MASTER) {
             return "myTeamManagement";
         }
         return "myTeam";

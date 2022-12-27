@@ -1,10 +1,11 @@
 package com.nastudy.stubox.service;
 
+import com.nastudy.stubox.config.auth.Auth2Service;
+import com.nastudy.stubox.domain.TeamRole;
 import com.nastudy.stubox.domain.entity.CardBox;
 import com.nastudy.stubox.domain.entity.Member;
 import com.nastudy.stubox.dto.BoxDeleteDto;
 import com.nastudy.stubox.dto.BoxDto;
-import com.nastudy.stubox.dto.BoxSearchCond;
 import com.nastudy.stubox.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,22 +19,28 @@ import java.util.List;
 public class CardBoxService {
     private final CardBoxRepository cardBoxRepository;
     private final CardBoxJpaRepository jpaRepository;
-    private final MemberRepository memberRepository;
+    private final Auth2Service auth2Service;
     private final CardJpaRepository cardJpaRepository;
     private final CardTestJpaRepository cardTestJpaRepository;
     private final TestJpaRepository testJpaRepository;
 
     @Transactional(readOnly = true)
-    public List<BoxDto> search(BoxSearchCond searchCond) {
-        if (searchCond.getTeamId() != null && searchCond.getTeamId() > 0) {
-            return cardBoxRepository.searchByTeam(searchCond.getTeamId());
+    public List<BoxDto> search(Long memberId) {
+        Member member = auth2Service.findMember(memberId);
+
+        if (member.getTeam() != null && member.getTeamRole() != TeamRole.UNAPPROVED) {
+            return cardBoxRepository.searchByTeam(member.getTeam().getId());
         } else {
-            return cardBoxRepository.searchByMember(searchCond.getMemberId());
+            return searchMyBox(memberId);
         }
     }
 
+    public List<BoxDto> searchMyBox(Long memberId) {
+        return cardBoxRepository.searchByMember(memberId);
+    }
+
     public BoxDto save(String name, Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("다시 로그인 해 주세요."));
+        Member member = auth2Service.findMember(memberId);
         existsBoxName(name, memberId);
         CardBox cardBox = CardBox.builder().name(name).member(member).build();
         cardBox = jpaRepository.save(cardBox);

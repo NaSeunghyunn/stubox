@@ -6,11 +6,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class CardUpdateForm {
+public class BoxNameUpdateForm {
     @NotNull
-    private Long id;
+    private Long boxId;
     @NotBlank
-    private String keyword;
-    @NotBlank
-    private String concept;
+    private String boxName;
 }

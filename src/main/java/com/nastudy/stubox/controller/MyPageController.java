@@ -2,6 +2,7 @@ package com.nastudy.stubox.controller;
 
 import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.config.auth.PrincipalDetail;
+import com.nastudy.stubox.domain.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,11 @@ public class MyPageController {
 
     @GetMapping()
     public String init(@AuthenticationPrincipal PrincipalDetail principal, Model model) {
-        principal = auth2Service.refresh(principal);
-        model.addAttribute("profile", principal.getProfile());
-        model.addAttribute("memberName", principal.getName());
-        model.addAttribute("teamName", principal.getTeamName());
-        model.addAttribute("teamRole", principal.getTeamRole());
+        Member member = auth2Service.findMember(principal.getMemberId());
+        model.addAttribute("profile", member.getProfile());
+        model.addAttribute("memberName", member.getName());
+        model.addAttribute("teamName", auth2Service.getTeamName(member));
+        model.addAttribute("teamRole", member.getTeamRole());
         return "myPage";
     }
 }

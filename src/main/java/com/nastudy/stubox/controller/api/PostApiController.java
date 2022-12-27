@@ -20,9 +20,7 @@ public class PostApiController {
 
     @PostMapping()
     public Long save(@RequestBody @Validated PostSaveForm form, @AuthenticationPrincipal PrincipalDetail principal) {
-        principal.checkMaster();
-        principal.hasTeam();
-        return postService.save(form, principal.getTeamId());
+        return postService.save(form, principal.getMemberId());
     }
 
     @GetMapping()

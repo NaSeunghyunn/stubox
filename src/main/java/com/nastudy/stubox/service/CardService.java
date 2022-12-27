@@ -2,6 +2,7 @@ package com.nastudy.stubox.service;
 
 import com.nastudy.stubox.controller.form.CardDeleteForm;
 import com.nastudy.stubox.controller.form.CardSaveForm;
+import com.nastudy.stubox.controller.form.BoxNameUpdateForm;
 import com.nastudy.stubox.controller.form.CardUpdateForm;
 import com.nastudy.stubox.domain.entity.Card;
 import com.nastudy.stubox.domain.entity.CardBox;
@@ -52,7 +53,7 @@ public class CardService {
         return CardDto.of(card);
     }
 
-    public void changeBoxName(CardUpdateForm form, Long memberId) {
+    public void changeBoxName(BoxNameUpdateForm form, Long memberId) {
         CardBox cardBox = myCardBox(form.getBoxId(), memberId);
         cardBox.changeName(form.getBoxName());
     }
@@ -65,6 +66,14 @@ public class CardService {
 
         cardTestJpaRepository.deleteByCard(card);
         cardJpaRepository.deleteById(form.getId());
+    }
+
+    public void update(CardUpdateForm form, Long memberId) {
+        Card card = cardRepository.findMyCard(form.getId(), memberId);
+        if (card == null) {
+            throw new IllegalArgumentException("수정 권한이 없는 박스입니다.");
+        }
+        card.modifyCard(form.getKeyword(), form.getConcept());
     }
 
     private CardBox myCardBox(Long boxId, Long memberId) {
