@@ -1,7 +1,7 @@
 package com.nastudy.stubox.config.auth;
 
-import com.nastudy.stubox.config.auth.attribute.KakaoAttribute;
 import com.nastudy.stubox.config.auth.attribute.Oauth2Attribute;
+import com.nastudy.stubox.config.auth.attribute.Oauth2AttributeUtil;
 import com.nastudy.stubox.domain.entity.Member;
 import com.nastudy.stubox.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +15,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     private final MemberRepository memberRepository;
+    private final Oauth2AttributeUtil oauth2AttributeFactory;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        Oauth2Attribute oauth2Attribute = new KakaoAttribute(oAuth2User);
+        Oauth2Attribute oauth2Attribute = oauth2AttributeFactory.createAttribute(userRequest.getClientRegistration().getRegistrationId(), oAuth2User);
 
         Member member = memberRepository.findAuthentication(oAuth2User.getName());
 
