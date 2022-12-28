@@ -52,8 +52,8 @@
             color: rgb(255, 255, 255);
             cursor: pointer;
             display: inline-block;
-            height: 50px;
-            line-height: 50px;
+            height: 65px;
+            line-height: 65px;
             text-align: left;
             text-decoration: none;
             text-transform: uppercase;
@@ -111,13 +111,13 @@
         }
 
         #google-connect {
-            background: rgb(255, 255, 255) url('https://raw.githubusercontent.com/eswarasai/social-login/master/img/google-plus.png') no-repeat scroll 5px 0px / 50px 50px padding-box border-box;
+            background: rgb(255, 255, 255) url('https://raw.githubusercontent.com/eswarasai/social-login/master/img/google-plus.png') no-repeat scroll 5px 0px / 55px 60px padding-box border-box;
             border: 1px solid rgb(220, 74, 61);
         }
 
         #google-connect:hover {
             border-color: rgb(220, 74, 61);
-            background: rgb(220, 74, 61) url('https://raw.githubusercontent.com/eswarasai/social-login/master/img/google-plus-white.png') no-repeat scroll 5px 0px / 50px 50px padding-box border-box;
+            background: rgb(220, 74, 61) url('https://raw.githubusercontent.com/eswarasai/social-login/master/img/google-plus-white.png') no-repeat scroll 5px 0px / 55px 60px padding-box border-box;
             -webkit-transition: all .8s ease-out;
             -moz-transition: all .3s ease;
             -ms-transition: all .3s ease;
@@ -226,6 +226,11 @@
             -o-transition: all .3s ease;
             transition: all .3s ease;
         }
+
+        .kakao-btn{
+            width: 100%;
+            height: 65px;
+        }
     </style>
 </head>
 
@@ -234,6 +239,9 @@
         <img src="/img/logo_sb.png" alt="Logo" class="rounded-pill">
         <a href="/oauth2/authorization/google" class="social-button" id="google-connect"> <span>Connect with
                 Google</span></a>
+        <a href="/oauth2/authorization/kakao">
+            <img src="/img/kakao_login.png" alt="kakaoLogin" class="kakao-btn">
+        </a>
     </div>
 </body>
 
