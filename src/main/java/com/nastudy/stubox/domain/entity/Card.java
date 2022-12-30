@@ -18,7 +18,7 @@ public class Card extends BaseEntity {
     private Long id;
     @Column(nullable = false)
     private String keyword;
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String concept;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "box_id")

@@ -26,9 +26,29 @@ public class FileUploader {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String uploadProfileS3(MultipartFile profileImage) {
-        String fileName = profileImage.getOriginalFilename();
-        return putS3(profileImage, fileName);
+    public String uploadProfileS3(MultipartFile profileImage, S3Folder folder) {
+        return putS3(profileImage, folder.getDir());
+    }
+
+    private String putS3(MultipartFile profileImage, String dir) {
+        String fileName = UUID.randomUUID() + profileImage.getOriginalFilename();
+        String path = bucket + dir;
+        ObjectMetadata objectMetadata = getObjectMetadata(profileImage);
+        try {
+            amazonS3Client.putObject(new PutObjectRequest(path, fileName, profileImage.getInputStream(), objectMetadata).withCannedAcl(PublicRead));
+            log.info("path : " + path);
+            log.info("File Upload : " + fileName);
+            return amazonS3Client.getUrl(path, fileName).toString();
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    private ObjectMetadata getObjectMetadata(MultipartFile uploadFile) {
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(uploadFile.getContentType());
+        objectMetadata.setContentLength(uploadFile.getSize());
+        return objectMetadata;
     }
 
     public String uploadProfile(MultipartFile profileImage) {
@@ -49,23 +69,5 @@ public class FileUploader {
             throw new IllegalStateException(e);
         }
         return profileImageFolder + "/" + file.getName();
-    }
-
-    private String putS3(MultipartFile profileImage, String fileName) {
-        ObjectMetadata objectMetadata = getObjectMetadata(profileImage);
-        try {
-            amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, profileImage.getInputStream(), objectMetadata).withCannedAcl(PublicRead));
-            log.info("File Upload : " + fileName);
-            return amazonS3Client.getUrl(bucket, fileName).toString();
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
-
-    private ObjectMetadata getObjectMetadata(MultipartFile uploadFile) {
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(uploadFile.getContentType());
-        objectMetadata.setContentLength(uploadFile.getSize());
-        return objectMetadata;
     }
 }

@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.*;
 
 @RequiredArgsConstructor
 @Repository
-public class PostRepository {
+public class PostsRepository {
     private final JPAQueryFactory queryFactory;
 
     public List<PostsDto> findPosts(PostsCond cond) {

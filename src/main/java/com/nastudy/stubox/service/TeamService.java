@@ -10,7 +10,7 @@ import com.nastudy.stubox.domain.entity.Team;
 import com.nastudy.stubox.domain.entity.TeamCategory;
 import com.nastudy.stubox.dto.MyTeamDto;
 import com.nastudy.stubox.repository.MemberRepository;
-import com.nastudy.stubox.repository.PostJpaRepository;
+import com.nastudy.stubox.repository.PostsJpaRepository;
 import com.nastudy.stubox.repository.TeamCategoryJpaRepository;
 import com.nastudy.stubox.repository.TeamJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class TeamService {
     private final TeamJpaRepository teamJpaRepository;
     private final MemberRepository memberRepository;
     private final TeamCategoryJpaRepository teamCategoryJpaRepository;
-    private final PostJpaRepository postJpaRepository;
+    private final PostsJpaRepository postJpaRepository;
     private final Auth2Service auth2Service;
 
     public Long save(TeamSaveForm form, Long memberId) {

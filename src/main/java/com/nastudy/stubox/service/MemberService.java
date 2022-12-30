@@ -1,7 +1,7 @@
 package com.nastudy.stubox.service;
 
-import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.domain.FileUploader;
+import com.nastudy.stubox.domain.S3Folder;
 import com.nastudy.stubox.domain.entity.Member;
 import com.nastudy.stubox.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디 입니다."));
 
-        String profile = fileUploader.uploadProfileS3(profileImage);
+        String profile = fileUploader.uploadProfileS3(profileImage, S3Folder.PROFILE);
         member.updateProfile(profile);
         return memberId;
     }
