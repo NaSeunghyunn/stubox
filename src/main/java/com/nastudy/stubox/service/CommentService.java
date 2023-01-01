@@ -55,4 +55,10 @@ public class CommentService {
         List<Comment> comments = commentJpaRepository.findByPostId(postId);
         return comments.stream().map(CommentDto::new).collect(Collectors.toList());
     }
+
+    public Long delete(Long commentId, Long memberId) {
+        Comment comment = commentJpaRepository.findMyComment(commentId, memberId).orElseThrow(() -> new IllegalArgumentException("삭제 할 수 없습니다."));
+        commentJpaRepository.delete(comment);
+        return commentId;
+    }
 }

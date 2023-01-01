@@ -99,6 +99,8 @@ function clearItem(row) {
     let $row = $(row);
     $row.find(".keyword").val("");
     $row.find(".concept").val("");
+    $("#add-keyword").val("");
+    $("#add-concept").val("");
 }
 
 function showModal(target) {

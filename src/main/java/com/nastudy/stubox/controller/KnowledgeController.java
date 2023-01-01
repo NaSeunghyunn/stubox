@@ -26,6 +26,7 @@ public class KnowledgeController {
     public String detail(@PathVariable("id") Long id, @AuthenticationPrincipal PrincipalDetail principal, Model model) {
         Member member = auth2Service.findMember(principal.getMemberId());
         model.addAttribute("postId", id);
+        model.addAttribute("myName", member.getName());
         model.addAttribute("profile", member.getProfile());
         return "knowledgeDetail";
     }

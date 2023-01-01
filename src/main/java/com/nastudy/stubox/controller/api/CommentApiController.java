@@ -32,4 +32,10 @@ public class CommentApiController {
     public List<CommentDto> findAll(@PathVariable("postId") Long postId) {
         return commentService.findAll(postId);
     }
+
+    @DeleteMapping("/{id}")
+    public Long delete(@PathVariable("id") Long id, @AuthenticationPrincipal PrincipalDetail principal) {
+        return commentService.delete(id, principal.getMemberId());
+    }
+
 }

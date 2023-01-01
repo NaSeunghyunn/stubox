@@ -25,6 +25,10 @@
             padding-bottom: 20px;
         }
 
+        .content-area img {
+            max-width: 100% !important;
+        }
+
         .tag-area {
             word-break: break-all;
             flex-wrap: wrap;
@@ -76,7 +80,7 @@
             margin-top: 15px;
         }
 
-        .comment-child-input {
+        .comment-btn {
             text-decoration: none;
             font-size: 0.8rem;
             cursor: pointer;
@@ -232,6 +236,7 @@
         </div>
     </div>
     <input type="hidden" id="postId" th:value="${postId}">
+    <input type="hidden" id="myName" th:value="${myName}">
 </body>
 <script src="/js/common.js"></script>
 <script src="/js/knowledgeDetail.js"></script>

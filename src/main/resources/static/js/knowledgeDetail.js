@@ -68,7 +68,6 @@ let api = {
 
     saveCommentChild: function () {
         let url = "/comment/child";
-        console.log($("#commentId").val());
         let body = {
             id: $("#commentId").val(),
             content: $("#comment2").val(),
@@ -76,6 +75,13 @@ let api = {
         };
         commonMethod.fetchPost(url, body)
             .then(() => $("#comment2").val(""))
+            .then(() => this.findComments())
+            .catch(err => false);
+    },
+
+    deleteComment: function (id) {
+        let url = "/comment/" + id;
+        commonMethod.fetch(url, "DELETE")
             .then(() => this.findComments())
             .catch(err => false);
     }
@@ -237,11 +243,21 @@ function genComment(data) {
 
     let contentInput = document.createElement('a');
     let $contentInput = $(contentInput);
-    $contentInput.attr("class", "comment-child-input text-muted");
+    $contentInput.attr("class", "comment-child-input comment-btn text-muted me-3");
     $contentInput.attr("aria-expanded", "false");
     $contentInput.text("답글쓰기");
-
     $contentInputDiv.append($updateAt).append($contentInput);
+
+    if (data.writer.name == $("#myName").val()) {
+        let delBtn = document.createElement('a');
+        let $delBtn = $(delBtn);
+        $delBtn.attr("class", "comment-btn text-muted");
+        $delBtn.attr("aria-expanded", "false");
+        $delBtn.attr("onclick", "api.deleteComment(" + data.id + ")");
+        $delBtn.text("삭제");
+        $contentInputDiv.append($delBtn);
+    }
+
 
     $contentDiv.append($nickName).append($id).append($content).append($contentInputDiv)
     $profileDiv.append($profile);
@@ -310,15 +326,25 @@ function genCommentChild(data, commentId) {
 
     let contentInputDiv = document.createElement('div');
     let $contentInputDiv = $(contentInputDiv);
-    $contentInputDiv.attr("class", "comment-child-input-container d-flex");
+    $contentInputDiv.attr("class", "comment-child-input-container d-flex me-3");
 
     let contentInput = document.createElement('a');
     let $contentInput = $(contentInput);
-    $contentInput.attr("class", "comment-child-input text-muted");
+    $contentInput.attr("class", "comment-child-input comment-btn text-muted me-3");
     $contentInput.attr("aria-expanded", "false");
     $contentInput.text("답글쓰기");
 
     $contentInputDiv.append($updateAt).append($contentInput);
+    if (data.writer.name == $("#myName").val()) {
+        let delBtn = document.createElement('a');
+        let $delBtn = $(delBtn);
+        $delBtn.attr("class", "comment-btn text-muted me-3");
+        $delBtn.attr("aria-expanded", "false");
+        $delBtn.attr("onclick", "api.deleteComment(" + data.id + ")");
+        $delBtn.text("삭제");
+        $contentInputDiv.append($delBtn);
+    }
+
     $contentWrap.append($receiver).append($content);
     $contentDiv.append($nickName).append($id).append($contentWrap).append($contentInputDiv)
     $profileDiv.append($profile);
