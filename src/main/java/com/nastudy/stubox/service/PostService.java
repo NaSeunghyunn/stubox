@@ -4,7 +4,7 @@ import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.controller.form.PostsSaveForm;
 import com.nastudy.stubox.domain.entity.Member;
 import com.nastudy.stubox.domain.entity.Posts;
-import com.nastudy.stubox.dto.PostDetailDto;
+import com.nastudy.stubox.dto.PostsDetailDto;
 import com.nastudy.stubox.dto.PostsCond;
 import com.nastudy.stubox.dto.PostsResponse;
 import com.nastudy.stubox.repository.PostsJpaRepository;
@@ -35,8 +35,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostDetailDto findPostDetail(Long id){
+    public PostsDetailDto findPostDetail(Long id){
         Posts posts = postJpaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("모집글이 존재하지 않습니다."));
-        return new PostDetailDto(posts);
+        return new PostsDetailDto(posts);
     }
 }

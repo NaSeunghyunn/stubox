@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html :: link_header(~{::title}, ~{::style})">
+    <title>지식글 상세</title>
+    <style>
+        .profile-img {
+            width: 40px;
+            border-radius: 43px;
+            max-height: 40px;
+        }
+
+        .profile-img-l {
+            width: 60px;
+            border-radius: 43px;
+            max-height: 60px;
+        }
+
+        .size-s {
+            font-size: 0.8rem;
+        }
+
+        .bottom-line {
+            border-bottom: 1px solid #d2d2d2;
+            padding-bottom: 20px;
+        }
+
+        .tag-area {
+            word-break: break-all;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            border-radius: 43px;
+            background: #f3f3f3;
+            padding: 5px 10px;
+            margin: 5px 10px;
+        }
+
+        .tag a {
+            text-decoration: none;
+            color: #757575;
+        }
+
+        .tag a:hover {
+            color: #7cb1ff;
+        }
+
+        .comment-input-area {
+            border: 1px solid #d5d5d5;
+            border-radius: 0.5rem;
+            padding: 25px 15px;
+        }
+
+        .like-area {
+            min-width: 70px;
+        }
+
+        .like-area img {
+            cursor: pointer;
+        }
+
+        .color-gray {
+            color: #606060;
+        }
+
+        .like-img {
+            display: none;
+        }
+
+        .space-nowrap {
+            white-space: nowrap;
+        }
+
+        .comment-child-input-container {
+            margin-top: 15px;
+        }
+
+        .comment-child-input {
+            text-decoration: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            -ms-user-select: none;
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        }
+
+        .comment-child-input:hover {
+            color: #7cb1ff !important;
+        }
+
+        .comment-child {
+            padding: 10px 5px 5px 5px;
+            margin-left: 30px;
+            border-left: 2px solid #e5e7eb;
+        }
+
+        .receiver {
+            color: #007bff;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 767px) {
+            #commentChildInput {
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="fragments/nav.html :: top-nav"></div>
+    <div class="container">
+        <div class="title-area mb-3">
+            <h1 id="title"></h1>
+        </div>
+        <div class="writer-area d-flex bottom-line">
+            <div>
+                <img class="profile-img" id="writer-profile"
+                    src="http://k.kakaocdn.net/dn/c5iag9/btrPPVXacU2/lEDdAhSl7H9Kxm54NNMj2k/img_640x640.jpg">
+            </div>
+            <div>
+                <div class="mx-2" id="writer-name"></div>
+                <div class="size-s color-gray">
+                    <span class="mx-2" id="updateAt"></span>
+                    <img src="https://stubox-bucket.s3.ap-northeast-1.amazonaws.com/viewCount.png">
+                    <span id="view-count"></span>
+                </div>
+            </div>
+        </div>
+        <div class="content-area p-4"></div>
+        <div class="tag-area d-flex bottom-line">
+            <div class="like-area ms-3">
+                <div>
+                    <img id="like-no" class="like-img" onclick="api.doLike();"
+                        src="https://stubox-bucket.s3.ap-northeast-1.amazonaws.com/like1.png">
+                    <img id="like-ok" class="like-img" onclick="api.cancelLike();"
+                        src="https://stubox-bucket.s3.ap-northeast-1.amazonaws.com/like2.png">
+                    <span id="like-count">3</span>
+                </div>
+            </div>
+        </div>
+        <div class="comment-input-area d-flex m-3">
+            <div class="d-flex" style="width: 100%; margin-right: 5px;">
+                <div>
+                    <img class="profile-img-l mx-2" th:src="${profile}">
+                </div>
+                <textarea class="form-control" id="comment"></textarea>
+            </div>
+            <div class="mt-2 text-end">
+                <button type="button" class="btn btn-primary space-nowrap" onclick="api.saveComment();">등록</button>
+            </div>
+        </div>
+        <div class="comment-area mb-5">
+            <div class="bottom-line">
+                <div class="comment-wrap">
+                    <div class="comment d-flex p-3">
+                        <div>
+                            <img class="profile-img mx-2"
+                                src="https://lh3.googleusercontent.com/a/ALm5wu2xRgm9XQkBI0V7quS5u4hWf8fL42rJtRDrx10F=s96-c">
+                        </div>
+                        <div>
+                            <div>닉네임1</div>
+                            <div>댓글내용1</div>
+                            <div class="comment-child-input-container">
+                                <a class="comment-child-input text-muted" aria-expanded="false">
+                                    답글쓰기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="comment-wrap">
+                    <div class="comment-child d-flex">
+                        <div>
+                            <img class="profile-img mx-2"
+                                src="https://lh3.googleusercontent.com/a/ALm5wu2xRgm9XQkBI0V7quS5u4hWf8fL42rJtRDrx10F=s96-c">
+                        </div>
+                        <div>
+                            <div>대댓글 닉네임1</div>
+                            <div>대댓글내용1</div>
+                            <div class="comment-child-input-container">
+                                <a class="comment-child-input text-muted" aria-expanded="false">
+                                    답글쓰기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-wrap">
+                    <div class="comment-child d-flex">
+                        <div>
+                            <img class="profile-img mx-2"
+                                src="https://lh3.googleusercontent.com/a/ALm5wu2xRgm9XQkBI0V7quS5u4hWf8fL42rJtRDrx10F=s96-c">
+                        </div>
+                        <div>
+                            <div>대댓글 닉네임2</div>
+                            <div>대댓글내용2</div>
+                            <div class="comment-child-input-container">
+                                <a class="comment-child-input text-muted" aria-expanded="false">
+                                    답글쓰기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-line">
+                <div class="comment-wrap">
+                    <div class="comment d-flex p-3">
+                        <div>
+                            <img class="profile-img mx-2"
+                                src="https://lh3.googleusercontent.com/a/ALm5wu2xRgm9XQkBI0V7quS5u4hWf8fL42rJtRDrx10F=s96-c">
+                        </div>
+                        <div>
+                            <div>닉네임2</div>
+                            <div>댓글내용2</div>
+                            <div class="comment-child-input-container">
+                                <a class="comment-child-input text-muted" aria-expanded="false">
+                                    답글쓰기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="postId" th:value="${postId}">
+</body>
+<script src="/js/common.js"></script>
+<script src="/js/knowledgeDetail.js"></script>
+
+</html>

@@ -7,6 +7,7 @@ import com.nastudy.stubox.domain.entity.Member;
 import com.nastudy.stubox.domain.entity.Post;
 import com.nastudy.stubox.domain.entity.PostTag;
 import com.nastudy.stubox.domain.entity.Tag;
+import com.nastudy.stubox.dto.PostDto;
 import com.nastudy.stubox.repository.PostJpaRepository;
 import com.nastudy.stubox.repository.PostTagJpaRepository;
 import com.nastudy.stubox.repository.TagJpaRepository;
@@ -24,6 +25,15 @@ public class KnowledgeService {
     private final TagJpaRepository tagJpaRepository;
     private final PostTagJpaRepository postTagJpaRepository;
     private final Auth2Service auth2Service;
+
+    public PostDto findPost(Long postId){
+        Post post = postJpaRepository.findPost(postId);
+        if(post == null){
+            throw new IllegalArgumentException("지식글이 존재하지 않습니다.");
+        }
+        post.viewCountUp();
+        return new PostDto(post);
+    }
 
     public Long save(PostSaveForm form, Long memberId){
         Member member = auth2Service.findMember(memberId);

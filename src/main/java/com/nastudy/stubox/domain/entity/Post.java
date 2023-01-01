@@ -38,10 +38,6 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private int viewCount;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
-    private int likes;
-
     @Column(name = "preview_url")
     private String previewURL;
 
@@ -50,15 +46,18 @@ public class Post extends BaseEntity {
     private Card card;
 
     @Builder
-    public Post(Long id, PostType postType, String title, String content, Member writer, int viewCount, int likes, String previewURL, Card card) {
+    public Post(Long id, PostType postType, String title, String content, Member writer, int viewCount, String previewURL, Card card) {
         this.id = id;
         this.postType = postType;
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.viewCount = viewCount;
-        this.likes = likes;
         this.previewURL = previewURL;
         this.card = card;
+    }
+
+    public void viewCountUp() {
+        viewCount++;
     }
 }

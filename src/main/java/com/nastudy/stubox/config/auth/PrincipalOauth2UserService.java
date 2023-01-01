@@ -11,6 +11,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
@@ -26,7 +28,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         if (member == null) {
             member = Member.builder()
-                    .name(oauth2Attribute.getNickname())
+                    .name(generateName(oauth2Attribute.getNickname()))
                     .email(oauth2Attribute.getEmail())
                     .profile(oauth2Attribute.getProfile())
                     .provider(userRequest.getClientRegistration().getRegistrationId())
@@ -36,5 +38,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             memberRepository.save(member);
         }
         return new PrincipalDetail(member, oauth2Attribute);
+    }
+
+    private String generateName(String name) {
+        boolean existsByName = memberRepository.existsByName(name);
+        if (existsByName) {
+            return name + UUID.randomUUID();
+        }
+        return name;
     }
 }

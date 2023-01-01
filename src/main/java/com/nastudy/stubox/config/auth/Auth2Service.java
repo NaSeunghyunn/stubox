@@ -21,6 +21,14 @@ public class Auth2Service {
         return member;
     }
 
+    public Member findMemberByName(String name) {
+        Member member = memberRepository.findMember(name);
+        if (member == null) {
+            throw new IllegalArgumentException("다시 로그인 해 주세요.");
+        }
+        return member;
+    }
+
     public Long getTeamId(Member member) {
         return member.getTeam() == null ? null : member.getTeam().getId();
     }

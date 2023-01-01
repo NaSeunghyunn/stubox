@@ -4,11 +4,11 @@ import com.nastudy.stubox.domain.entity.Posts;
 import lombok.Data;
 
 @Data
-public class PostDetailDto {
+public class PostsDetailDto {
     private String title;
     private String content;
 
-    public PostDetailDto(Posts posts) {
+    public PostsDetailDto(Posts posts) {
         this.title = posts.getTitle();
         this.content = posts.getContent();
     }

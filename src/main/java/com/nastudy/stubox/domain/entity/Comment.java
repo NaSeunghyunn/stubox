@@ -1,5 +1,6 @@
 package com.nastudy.stubox.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +26,10 @@ public class Comment extends BaseEntity {
     private Member writer;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "receiver_id")
+    private Member receiver;
+
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
@@ -34,4 +39,15 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @Builder
+    public Comment(Long id, String content, Member writer, Member receiver, Comment parent, List<Comment> children, Post post) {
+        this.id = id;
+        this.content = content;
+        this.writer = writer;
+        this.receiver = receiver;
+        this.parent = parent;
+        this.children = children;
+        this.post = post;
+    }
 }
