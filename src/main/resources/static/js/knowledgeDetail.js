@@ -225,11 +225,15 @@ function genComment(data) {
     let $content = $(content);
     $content.text(data.content);
 
-
+    let updateAt = document.createElement('div');
+    let $updateAt = $(updateAt);
+    $updateAt.attr("class", "text-muted me-3")
+    $updateAt.text(data.updateAt);
+    $updateAt.css("font-size", "0.8rem");
 
     let contentInputDiv = document.createElement('div');
     let $contentInputDiv = $(contentInputDiv);
-    $contentInputDiv.attr("class", "comment-child-input-container");
+    $contentInputDiv.attr("class", "comment-child-input-container d-flex");
 
     let contentInput = document.createElement('a');
     let $contentInput = $(contentInput);
@@ -237,7 +241,7 @@ function genComment(data) {
     $contentInput.attr("aria-expanded", "false");
     $contentInput.text("답글쓰기");
 
-    $contentInputDiv.append($contentInput);
+    $contentInputDiv.append($updateAt).append($contentInput);
 
     $contentDiv.append($nickName).append($id).append($content).append($contentInputDiv)
     $profileDiv.append($profile);
@@ -260,7 +264,7 @@ function genCommentChild(data, commentId) {
     let comment = document.createElement('div');
     let $comment = $(comment);
     $comment.attr("class", "comment-child d-flex");
-
+    $comment.css("white-space", "pre-line");
 
     let profileDiv = document.createElement('div');
     let $profileDiv = $(profileDiv);
@@ -298,9 +302,15 @@ function genCommentChild(data, commentId) {
     let $content = $(content);
     $content.text(data.content);
 
+    let updateAt = document.createElement('div');
+    let $updateAt = $(updateAt);
+    $updateAt.attr("class", "text-muted me-3")
+    $updateAt.text(data.updateAt);
+    $updateAt.css("font-size", "0.8rem");
+
     let contentInputDiv = document.createElement('div');
     let $contentInputDiv = $(contentInputDiv);
-    $contentInputDiv.attr("class", "comment-child-input-container");
+    $contentInputDiv.attr("class", "comment-child-input-container d-flex");
 
     let contentInput = document.createElement('a');
     let $contentInput = $(contentInput);
@@ -308,7 +318,7 @@ function genCommentChild(data, commentId) {
     $contentInput.attr("aria-expanded", "false");
     $contentInput.text("답글쓰기");
 
-    $contentInputDiv.append($contentInput);
+    $contentInputDiv.append($updateAt).append($contentInput);
     $contentWrap.append($receiver).append($content);
     $contentDiv.append($nickName).append($id).append($contentWrap).append($contentInputDiv)
     $profileDiv.append($profile);
