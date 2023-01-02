@@ -113,6 +113,11 @@
                 padding: 0 !important;
             }
         }
+
+        .modal-body button {
+            float: right;
+            margin: 10px;
+        }
     </style>
 </head>
 
@@ -159,79 +164,26 @@
                 <button type="button" class="btn btn-primary space-nowrap" onclick="api.saveComment();">등록</button>
             </div>
         </div>
-        <div class="comment-area mb-5">
-            <div class="bottom-line">
-                <div class="comment-wrap">
-                    <div class="comment d-flex p-3">
-                        <div>
-                            <img class="profile-img mx-2"
-                                src="https://lh3.googleusercontent.com/a/ALm5wu2xRgm9XQkBI0V7quS5u4hWf8fL42rJtRDrx10F=s96-c">
-                        </div>
-                        <div>
-                            <div>닉네임1</div>
-                            <div>댓글내용1</div>
-                            <div class="comment-child-input-container">
-                                <a class="comment-child-input text-muted" aria-expanded="false">
-                                    답글쓰기
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+        <div class="comment-area mb-5"></div>
+    </div>
+    <!-- The Modal -->
+    <div class="modal" id="commentModModal">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
 
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <input type="hidden" id="comment-mod-modal-id">
+                    <textarea class="form-control" id="comment-mod-modal-content" style="height: 100%;"></textarea>
                 </div>
-                <div class="comment-wrap">
-                    <div class="comment-child d-flex">
-                        <div>
-                            <img class="profile-img mx-2"
-                                src="https://lh3.googleusercontent.com/a/ALm5wu2xRgm9XQkBI0V7quS5u4hWf8fL42rJtRDrx10F=s96-c">
-                        </div>
-                        <div>
-                            <div>대댓글 닉네임1</div>
-                            <div>대댓글내용1</div>
-                            <div class="comment-child-input-container">
-                                <a class="comment-child-input text-muted" aria-expanded="false">
-                                    답글쓰기
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        onclick="api.updateComment()">수정</button>
                 </div>
-                <div class="comment-wrap">
-                    <div class="comment-child d-flex">
-                        <div>
-                            <img class="profile-img mx-2"
-                                src="https://lh3.googleusercontent.com/a/ALm5wu2xRgm9XQkBI0V7quS5u4hWf8fL42rJtRDrx10F=s96-c">
-                        </div>
-                        <div>
-                            <div>대댓글 닉네임2</div>
-                            <div>대댓글내용2</div>
-                            <div class="comment-child-input-container">
-                                <a class="comment-child-input text-muted" aria-expanded="false">
-                                    답글쓰기
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="bottom-line">
-                <div class="comment-wrap">
-                    <div class="comment d-flex p-3">
-                        <div>
-                            <img class="profile-img mx-2"
-                                src="https://lh3.googleusercontent.com/a/ALm5wu2xRgm9XQkBI0V7quS5u4hWf8fL42rJtRDrx10F=s96-c">
-                        </div>
-                        <div>
-                            <div>닉네임2</div>
-                            <div>댓글내용2</div>
-                            <div class="comment-child-input-container">
-                                <a class="comment-child-input text-muted" aria-expanded="false">
-                                    답글쓰기
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

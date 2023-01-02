@@ -3,6 +3,7 @@ package com.nastudy.stubox.service;
 import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.controller.form.CommentChildSaveForm;
 import com.nastudy.stubox.controller.form.CommentSaveForm;
+import com.nastudy.stubox.controller.form.CommentUpdateForm;
 import com.nastudy.stubox.domain.entity.Comment;
 import com.nastudy.stubox.domain.entity.Member;
 import com.nastudy.stubox.domain.entity.Post;
@@ -60,5 +61,11 @@ public class CommentService {
         Comment comment = commentJpaRepository.findMyComment(commentId, memberId).orElseThrow(() -> new IllegalArgumentException("삭제 할 수 없습니다."));
         commentJpaRepository.delete(comment);
         return commentId;
+    }
+
+    public Long update(CommentUpdateForm form, Long memberId) {
+        Comment comment = commentJpaRepository.findMyComment(form.getId(), memberId).orElseThrow(() -> new IllegalArgumentException("수정 할 수 없습니다."));
+        comment.modifyContent(form.getContent());
+        return comment.getId();
     }
 }

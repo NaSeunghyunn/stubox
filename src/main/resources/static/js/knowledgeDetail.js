@@ -84,6 +84,17 @@ let api = {
         commonMethod.fetch(url, "DELETE")
             .then(() => this.findComments())
             .catch(err => false);
+    },
+
+    updateComment: function () {
+        let url = "/comment";
+        let body = {
+            id: $("#comment-mod-modal-id").val(),
+            content: $("#comment-mod-modal-content").val()
+        };
+        commonMethod.fetch(url, "PUT", body)
+            .then(() => this.findComments())
+            .catch(err => false);
     }
 
 };
@@ -229,6 +240,7 @@ function genComment(data) {
 
     let content = document.createElement('div');
     let $content = $(content);
+    $content.attr("class", "comment-content");
     $content.text(data.content);
 
     let updateAt = document.createElement('div');
@@ -251,11 +263,20 @@ function genComment(data) {
     if (data.writer.name == $("#myName").val()) {
         let delBtn = document.createElement('a');
         let $delBtn = $(delBtn);
-        $delBtn.attr("class", "comment-btn text-muted");
+        $delBtn.attr("class", "comment-btn text-muted me-3");
         $delBtn.attr("aria-expanded", "false");
         $delBtn.attr("onclick", "api.deleteComment(" + data.id + ")");
         $delBtn.text("삭제");
-        $contentInputDiv.append($delBtn);
+
+        let modBtn = document.createElement('a');
+        let $modBtn = $(modBtn);
+        $modBtn.attr("class", "comment-btn text-muted me-3");
+        $modBtn.attr("data-bs-toggle", "modal");
+        $modBtn.attr("data-bs-target", "#commentModModal")
+        $modBtn.attr("onclick", "setModal(this)");
+        $modBtn.text("수정");
+
+        $contentInputDiv.append($delBtn).append($modBtn);
     }
 
 
@@ -292,6 +313,7 @@ function genCommentChild(data, commentId) {
 
     let contentDiv = document.createElement('div');
     let $contentDiv = $(contentDiv);
+    $contentDiv.attr("class", "comment");
 
     let nickName = document.createElement('div');
     let $nickName = $(nickName);
@@ -302,8 +324,13 @@ function genCommentChild(data, commentId) {
     let id = document.createElement('input');
     let $id = $(id);
     $id.attr("type", "hidden");
-    $id.attr("class", "comment-id");
     $id.val(commentId);
+
+    let childId = document.createElement('input');
+    let $childId = $(childId);
+    $childId.attr("type", "hidden");
+    $childId.attr("class", "comment-id");
+    $childId.val(data.id);
 
     let contentWrap = document.createElement('div');
     let $contentWrap = $(contentWrap);
@@ -316,6 +343,7 @@ function genCommentChild(data, commentId) {
 
     let content = document.createElement('div');
     let $content = $(content);
+    $content.attr("class", "comment-content");
     $content.text(data.content);
 
     let updateAt = document.createElement('div');
@@ -342,14 +370,31 @@ function genCommentChild(data, commentId) {
         $delBtn.attr("aria-expanded", "false");
         $delBtn.attr("onclick", "api.deleteComment(" + data.id + ")");
         $delBtn.text("삭제");
-        $contentInputDiv.append($delBtn);
+
+        let modBtn = document.createElement('a');
+        let $modBtn = $(modBtn);
+        $modBtn.attr("class", "comment-btn text-muted me-3");
+        $modBtn.attr("data-bs-toggle", "modal");
+        $modBtn.attr("data-bs-target", "#commentModModal");
+        $modBtn.attr("onclick", "setModal(this)");
+        $modBtn.text("수정");
+        $contentInputDiv.append($delBtn).append($modBtn);
     }
 
     $contentWrap.append($receiver).append($content);
-    $contentDiv.append($nickName).append($id).append($contentWrap).append($contentInputDiv)
+    $contentDiv.append($nickName).append($id).append($childId).append($contentWrap).append($contentInputDiv)
     $profileDiv.append($profile);
     $comment.append($profileDiv).append($contentDiv);
     $commentWrap.append($comment);
 
     return $commentWrap;
+}
+
+function setModal(target) {
+    let $comment = $(target).closest(".comment");
+    let id = $comment.find(".comment-id").val();
+    let content = $comment.find(".comment-content").text();
+
+    $("#comment-mod-modal-id").val(id);
+    $("#comment-mod-modal-content").val(content);
 }

@@ -3,6 +3,7 @@ package com.nastudy.stubox.controller.api;
 import com.nastudy.stubox.config.auth.PrincipalDetail;
 import com.nastudy.stubox.controller.form.CommentChildSaveForm;
 import com.nastudy.stubox.controller.form.CommentSaveForm;
+import com.nastudy.stubox.controller.form.CommentUpdateForm;
 import com.nastudy.stubox.dto.CommentDto;
 import com.nastudy.stubox.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -38,4 +39,8 @@ public class CommentApiController {
         return commentService.delete(id, principal.getMemberId());
     }
 
+    @PutMapping()
+    public Long update(@RequestBody @Validated CommentUpdateForm form, @AuthenticationPrincipal PrincipalDetail principal) {
+        return commentService.update(form, principal.getMemberId());
+    }
 }
