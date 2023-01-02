@@ -245,7 +245,7 @@ function genComment(data) {
 
     let updateAt = document.createElement('div');
     let $updateAt = $(updateAt);
-    $updateAt.attr("class", "text-muted me-3")
+    $updateAt.attr("class", "text-muted me-2 space-nowrap")
     $updateAt.text(data.updateAt);
     $updateAt.css("font-size", "0.8rem");
 
@@ -255,7 +255,7 @@ function genComment(data) {
 
     let contentInput = document.createElement('a');
     let $contentInput = $(contentInput);
-    $contentInput.attr("class", "comment-child-input comment-btn text-muted me-3");
+    $contentInput.attr("class", "comment-child-input comment-btn text-muted me-2 space-nowrap");
     $contentInput.attr("aria-expanded", "false");
     $contentInput.text("답글쓰기");
     $contentInputDiv.append($updateAt).append($contentInput);
@@ -263,14 +263,14 @@ function genComment(data) {
     if (data.writer.name == $("#myName").val()) {
         let delBtn = document.createElement('a');
         let $delBtn = $(delBtn);
-        $delBtn.attr("class", "comment-btn text-muted me-3");
+        $delBtn.attr("class", "comment-btn text-muted me-2 space-nowrap");
         $delBtn.attr("aria-expanded", "false");
         $delBtn.attr("onclick", "api.deleteComment(" + data.id + ")");
         $delBtn.text("삭제");
 
         let modBtn = document.createElement('a');
         let $modBtn = $(modBtn);
-        $modBtn.attr("class", "comment-btn text-muted me-3");
+        $modBtn.attr("class", "comment-btn text-muted me-2 space-nowrap");
         $modBtn.attr("data-bs-toggle", "modal");
         $modBtn.attr("data-bs-target", "#commentModModal")
         $modBtn.attr("onclick", "setModal(this)");
@@ -348,17 +348,17 @@ function genCommentChild(data, commentId) {
 
     let updateAt = document.createElement('div');
     let $updateAt = $(updateAt);
-    $updateAt.attr("class", "text-muted me-3")
+    $updateAt.attr("class", "text-muted me-2 space-nowrap")
     $updateAt.text(data.updateAt);
     $updateAt.css("font-size", "0.8rem");
 
     let contentInputDiv = document.createElement('div');
     let $contentInputDiv = $(contentInputDiv);
-    $contentInputDiv.attr("class", "comment-child-input-container d-flex me-3");
+    $contentInputDiv.attr("class", "comment-child-input-container d-flex me-2");
 
     let contentInput = document.createElement('a');
     let $contentInput = $(contentInput);
-    $contentInput.attr("class", "comment-child-input comment-btn text-muted me-3");
+    $contentInput.attr("class", "comment-child-input comment-btn text-muted me-2 space-nowrap");
     $contentInput.attr("aria-expanded", "false");
     $contentInput.text("답글쓰기");
 
@@ -366,14 +366,14 @@ function genCommentChild(data, commentId) {
     if (data.writer.name == $("#myName").val()) {
         let delBtn = document.createElement('a');
         let $delBtn = $(delBtn);
-        $delBtn.attr("class", "comment-btn text-muted me-3");
+        $delBtn.attr("class", "comment-btn text-muted me-2 space-nowrap");
         $delBtn.attr("aria-expanded", "false");
         $delBtn.attr("onclick", "api.deleteComment(" + data.id + ")");
         $delBtn.text("삭제");
 
         let modBtn = document.createElement('a');
         let $modBtn = $(modBtn);
-        $modBtn.attr("class", "comment-btn text-muted me-3");
+        $modBtn.attr("class", "comment-btn text-muted me-2 space-nowrap");
         $modBtn.attr("data-bs-toggle", "modal");
         $modBtn.attr("data-bs-target", "#commentModModal");
         $modBtn.attr("onclick", "setModal(this)");
@@ -397,4 +397,5 @@ function setModal(target) {
 
     $("#comment-mod-modal-id").val(id);
     $("#comment-mod-modal-content").val(content);
+    $("#comment-mod-modal-content").focus();
 }
