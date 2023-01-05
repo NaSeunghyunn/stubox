@@ -35,6 +35,7 @@ public class PostLikeService {
         }
 
         Post post = postJpaRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+        post.likeCountUp();
         Member member = auth2Service.findMember(memberId);
         PostLike postLike = PostLike.builder().post(post).member(member).build();
         postLikeJpaRepository.save(postLike);

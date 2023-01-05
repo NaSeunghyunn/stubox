@@ -38,6 +38,14 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private int viewCount;
 
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private int commentCount;
+
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private int likeCount;
+
     @Column(name = "preview_url")
     private String previewURL;
 
@@ -59,5 +67,13 @@ public class Post extends BaseEntity {
 
     public void viewCountUp() {
         viewCount++;
+    }
+
+    public void commentCountUp() {
+        commentCount++;
+    }
+
+    public void likeCountUp() {
+        likeCount++;
     }
 }

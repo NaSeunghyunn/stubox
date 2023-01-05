@@ -15,11 +15,8 @@ $(document).ready(function () {
         let addFlag = addTagFlag();
 
         if (addFlag) {
-            addTag();
             api.saveTag();
         }
-
-        clearSearchTag();
     });
 });
 
@@ -50,6 +47,8 @@ let api = {
     saveTag: function () {
         let tagId = $("#tag-sel option:selected").val();
         if (tagId) {
+            addTag();
+            clearSearchTag();
             return;
         }
 
@@ -59,6 +58,8 @@ let api = {
         }
 
         commonMethod.fetchPost(url, body)
+            .then(data => addTag(data))
+            .then(() => clearSearchTag())
             .catch(err => false);
     },
 
@@ -76,6 +77,7 @@ let api = {
             tagIds: tagIds
         }
         commonMethod.fetchPost(url, body)
+            .then(() => location.href = "/knowledge")
             .catch(err => false);
     }
 }
@@ -109,7 +111,7 @@ function removeTag(tag) {
     $tagDiv.remove();
 }
 
-function addTag() {
+function addTag(id) {
     let tagDiv = document.createElement('div');
     let $tagDiv = $(tagDiv);
     $tagDiv.attr("class", "tag m-1");
@@ -123,7 +125,8 @@ function addTag() {
     let $tagId = $(tagId);
     $tagId.attr("type", "hidden");
     $tagId.attr("class", "tag-id");
-    $tagId.val($("#tag-sel option:selected").val());
+    let tagIdValue = id ? id : $("#tag-sel option:selected").val();
+    $tagId.val(tagIdValue);
 
     let button = document.createElement('button');
     let $button = $(button);

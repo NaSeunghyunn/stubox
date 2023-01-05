@@ -2,6 +2,7 @@ package com.nastudy.stubox.repository;
 
 import com.nastudy.stubox.dto.PostTagDto;
 import com.nastudy.stubox.dto.QPostTagDto;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,7 @@ public class PostTagRepository {
 
     public List<PostTagDto> findPostTags(Long postId) {
         return queryFactory
-                .select(new QPostTagDto(tag.name))
+                .select(new QPostTagDto(Expressions.asNumber(postId), tag.name))
                 .from(postTag)
                 .join(postTag.tag, tag)
                 .where(postTag.post.id.eq(postId))

@@ -165,7 +165,7 @@ let callback = {
             } else {
                 $(this).attr("aria-expanded", "true");
                 let commentWrap = $(this).closest(".comment-wrap");
-                let id = commentWrap.find(".comment-id").val();
+                let id = commentWrap.find(".parent-id").val();
                 let receiverName = commentWrap.find(".receiver-name").text();
                 commentWrap.append(genCommentInput(id, receiverName));
             }
@@ -235,7 +235,7 @@ function genComment(data) {
     let id = document.createElement('input');
     let $id = $(id);
     $id.attr("type", "hidden");
-    $id.attr("class", "comment-id");
+    $id.attr("class", "comment-id parent-id");
     $id.val(data.id);
 
     let content = document.createElement('div');
@@ -324,6 +324,7 @@ function genCommentChild(data, commentId) {
     let id = document.createElement('input');
     let $id = $(id);
     $id.attr("type", "hidden");
+    $id.attr("class", "parent-id");
     $id.val(commentId);
 
     let childId = document.createElement('input');

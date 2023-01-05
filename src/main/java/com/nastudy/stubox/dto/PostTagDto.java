@@ -5,10 +5,12 @@ import lombok.Data;
 
 @Data
 public class PostTagDto {
+    private Long postId;
     private String name;
 
     @QueryProjection
-    public PostTagDto(String name) {
+    public PostTagDto(Long postId, String name) {
+        this.postId = postId;
         this.name = name;
     }
 }

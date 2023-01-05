@@ -27,6 +27,7 @@ public class CommentService {
 
     public Long save(CommentSaveForm form, Long memberId) {
         Post post = postJpaRepository.findById(form.getPostId()).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+        post.commentCountUp();
         Member member = auth2Service.findMember(memberId);
         Comment comment = Comment.builder()
                 .content(form.getContent())
@@ -39,6 +40,7 @@ public class CommentService {
 
     public Long saveChild(CommentChildSaveForm form, Long memberId) {
         Comment parent = commentJpaRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("삭제된 댓글입니다."));
+        parent.getPost().commentCountUp();
         Member member = auth2Service.findMember(memberId);
         Member receiver = auth2Service.findMemberByName(form.getReceiverName());
         Comment comment = Comment.builder()

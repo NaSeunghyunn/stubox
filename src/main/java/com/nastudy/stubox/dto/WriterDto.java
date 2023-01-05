@@ -12,4 +12,9 @@ public class WriterDto {
         this.name = member.getName();
         this.profile = member.getProfile();
     }
+
+    public WriterDto(String name, String profile) {
+        this.name = name;
+        this.profile = profile;
+    }
 }

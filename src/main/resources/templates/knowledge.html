@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html :: link_header(~{::title}, ~{::style})">
+    <title>태스트</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .post-link:hover .css-title {
+            color: #1a71e7;
+        }
+
+        .post-link:hover .css-preview {
+            transform: translateY(-10px);
+            box-shadow: 5px 5px 5px 5px #dcd8d8;
+        }
+
+        .css-post {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            text-align: left;
+            max-width: 900px;
+            margin: 80px auto auto;
+        }
+
+        .css-preview {
+            width: 240px;
+            min-width: 240px;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-right: 48px;
+            transition: all 0.2s ease-in-out 0s;
+        }
+
+        .css-profile {
+            width: 50px;
+            height: 50px;
+            border-radius: 43px;
+            margin-right: 10px;
+        }
+
+        .css-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: rgb(51, 61, 75);
+            margin-top: 10px;
+            margin-bottom: 14px;
+            transition: all 0.2s ease-in-out 0s;
+            word-break: break-all;
+        }
+
+        .css-writer {
+            font-size: 15px;
+            color: rgb(139, 149, 161);
+        }
+
+        .css-right {
+            float: right;
+        }
+
+        .post-foot-img {
+            width: 24px;
+            margin: 0 5px;
+        }
+
+        .post-foot-span {
+            --bs-text-opacity: 1;
+            color: #6c757d !important;
+            font-size: 0.8rem;
+        }
+
+        .pull-width {
+            width: 100%;
+        }
+
+        .bottom-line {
+            border-bottom: 1px solid #d2d2d2;
+            padding-bottom: 20px;
+        }
+
+        #sortCollapse {
+            position: absolute;
+        }
+
+        .sort-btn {
+            top: 10px;
+        }
+
+        .sort-btn button,
+        .css-btn-clear {
+            white-space: nowrap;
+            background: #ffffff;
+            border: 0px;
+        }
+
+        .sort-btn button:hover {
+            color: #1a71e7;
+        }
+
+        .css-sort {
+            border: 1px solid hsla(220, 9%, 46%, .3);
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 10px;
+        }
+
+        svg {
+            width: 25px;
+        }
+
+        .css-center {
+            align-self: center;
+        }
+
+        .css-search {
+            border: 1px solid;
+            border-radius: 0 43px 43px 0;
+            padding: 7px;
+            white-space: nowrap;
+        }
+
+        .css-search-type {
+            width: 80px;
+            min-width: 80px;
+            padding-left: 1rem;
+            border-radius: 43px 0 0 43px;
+        }
+
+        .css-search input {
+            border: none;
+            outline: none;
+            padding-left: 15px;
+            width: 80%;
+            height: 100%;
+        }
+
+        .css-search:focus-within {
+            outline: auto cornflowerblue;
+        }
+
+        .mobile-active {
+            display: none;
+        }
+
+        .tags {
+            width: 50%;
+            word-break: break-all;
+        }
+
+        .tag {
+            color: #6c757d;
+            margin-right: 5px;
+        }
+
+        .page-link {
+            white-space: nowrap;
+        }
+
+        @media screen and (max-width: 770px) {
+            .css-post {
+                flex-direction: column;
+            }
+
+            .css-preview {
+                height: 200px;
+                width: 100%;
+                margin: 0px auto 30px;
+            }
+
+            .css-title {
+                font-size: 26px;
+            }
+
+            .mobile-active {
+                display: flex;
+            }
+
+            .web-active {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="fragments/nav.html :: top-nav"></div>
+    <div class="container">
+        <article>
+            <div class="d-flex justify-content-between bottom-line">
+                <a href="/knowledge/new" role="button" class="btn btn-primary css-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+                        class="h-4 w-4">
+                        <path
+                            d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z">
+                        </path>
+                    </svg>
+                    <span>작성하기</span>
+                </a>
+                <div class="web-active d-flex">
+                    <select class="form-select css-search css-search-type" id="searchType">
+                        <option th:selected="${searchType} == 'TITLE'" value="TITLE">제목</option>
+                        <option th:selected="${searchType} == 'TAG'" value="TAG">태그</option>
+                    </select>
+                    <div class="css-search">
+                        <input type="text" id="search" th:value="${search}">
+                        <button class="css-btn-clear css-right" onclick="searchPost()">
+                            <img src="https://stubox-bucket.s3.ap-northeast-1.amazonaws.com/search.png">
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <button class="css-sort" type="button" data-bs-toggle="collapse" data-bs-target="#sortCollapse"
+                        aria-expanded="false" aria-controls="sortCollapse">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" aria-hidden="true" class="h-5 w-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25">
+                            </path>
+                        </svg>
+                        <span id="sortType" th:text="${sortType}"></span>
+                    </button>
+                    <div class="collapse" id="sortCollapse">
+                        <div class="card card-body sort-btn">
+                            <button onclick="sortLatest();">최신순</button>
+                            <button onclick="sortRecommend();">추천순</button>
+                            <button onclick="sortComment();">댓글순</button>
+                            <button onclick="sortView();">조회순</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article class="mobile-active bottom-line" style="padding-top: 20px">
+            <select class="form-select css-search css-search-type" id="searchType-mobile">
+                <option th:selected="${searchType} == 'TITLE'" value="TITLE">제목</option>
+                <option th:selected="${searchType} == 'TAG'" value="TAG">태그</option>
+            </select>
+            <div class="css-center css-search pull-width">
+                <input type="text" id="search-mobile" th:value="${search}">
+                <button class="css-btn-clear css-right" onclick="searchMobile()">
+                    <img src="https://stubox-bucket.s3.ap-northeast-1.amazonaws.com/search.png">
+                </button>
+            </div>
+        </article>
+        <div id="posts"></div>
+        <div class="m-5">
+            <ul class="pagination justify-content-center">
+            </ul>
+        </div>
+    </div>
+    <input type="hidden" id="page" th:value="${page}">
+    <input type="hidden" id="sort" th:value="${sort}">
+    <input type="hidden" id="size" th:value="${size}">
+    <input type="hidden" id="totalCount" th:value="${totalCount}">
+</body>
+<script src="/js/common.js"></script>
+<script src="/js/knowledge.js"></script>
+
+</html>
