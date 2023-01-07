@@ -203,7 +203,6 @@ function addTag(id) {
 function addTagFlag() {
     let flg = true;
     $(".tag-name").each(function (index, item) {
-        console.log($(item).text());
         if ($(".tag-selected").text() === $(item).text()) {
             flg = false;
             return false;
