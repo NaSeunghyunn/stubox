@@ -1,6 +1,52 @@
+window.addEventListener("keydown", function (e) {
+    if ([38, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
+
 $(document).ready(function () {
     var timeout = null;
-    $("#tag-input").keyup(function () {
+    $("#tag-input").keyup(function (e) {
+        var key = e.keyCode;
+        $(".tag-sel-div").show(200);
+
+        if (key == 38) {
+            var $selectedTag = $(".tag-selected");
+            var $start = $(".tag-sel-item").first();
+            $(".tag-sel-item").not($start).css("background", "#ffffff");
+            $selectedTag.prev().css("background", "#cee6ff");
+            $(".tag-sel-item").not($start).removeClass("tag-selected");
+            $selectedTag.prev().addClass("tag-selected");
+
+            let selectedIdx = $(".tag-sel-item").index($(".tag-selected"));
+            if ($(".tag-sel-div").scrollTop() > 0) {
+                if ((selectedIdx - 3) * 45 > $(".tag-sel-div").scrollTop() || selectedIdx * 45 < $(".tag-sel-div").scrollTop()) {
+                    $(".tag-sel-div").scrollTop(selectedIdx * 45);
+                }
+            }
+            return;
+        }
+
+        if (key == 40) {
+            var $selectedTag = $(".tag-selected");
+            var $last = $(".tag-sel-item").last();
+            $(".tag-sel-item").not($last).css("background", "#ffffff");
+            $selectedTag.next().css("background", "#cee6ff");
+            $(".tag-sel-item").not($last).removeClass("tag-selected");
+            $selectedTag.next().addClass("tag-selected");
+
+            let selectedIdx = $(".tag-sel-item").index($(".tag-selected"));
+            if (selectedIdx > 3) {
+                if ((selectedIdx - 3) * 45 > $(".tag-sel-div").scrollTop()) {
+                    $(".tag-sel-div").scrollTop((selectedIdx - 3) * 45);
+                }
+            }
+            return;
+        }
+
+        if (key == 13) {
+            $(".tag-selected").click();
+        }
         clearTimeout(timeout);
         timeout = setTimeout(function () {
             if (!$("#tag-input").val()) {
@@ -11,12 +57,18 @@ $(document).ready(function () {
         }, 500);
     });
 
-    $("#tag-sel").change(function () {
-        let addFlag = addTagFlag();
+    let tagSelFlg = false;
+    $(".tag-sel-div").on("mouseenter", function () {
+        tagSelFlg = true;
+    });
+    $(".tag-sel-div").on("mouseleave", function () {
+        tagSelFlg = false;
+    });
 
-        if (addFlag) {
-            api.saveTag();
-        }
+    $("#tag-input").focusout(function () {
+        if (!tagSelFlg) {
+            clearSearchTag();
+        };
     });
 });
 
@@ -28,24 +80,35 @@ let api = {
         }
         commonMethod.fetchGet(url, params)
             .then(data => this.getTagsCallback(data))
+            .then(() => initSelTag())
             .catch(err => false);
     },
 
     getTagsCallback: function (data) {
-        let size = data.length < 5 ? data.length : 4;
-        if (size == 1) size++;
-        $("#tag-sel").attr("size", size);
-        $("#tag-sel").empty();
-        $("#tag-sel").show(300);
+
+        $(".tag-sel-div").empty();
         $(data).each(function (index, item) {
+            let tagDiv = document.createElement('div');
+            let $tagDiv = $(tagDiv);
+            $tagDiv.attr("class", "tag-sel-item");
+            $tagDiv.text(item.name);
+
             let id = item.id == null ? "" : item.id;
-            let option = "<option value='" + id + "'>" + item.name + "</option>"
-            $("#tag-sel").append(option);
+            let tagId = document.createElement('input');
+            let $tagId = $(tagId);
+            $tagId.attr("type", "hidden");
+            $tagId.attr("class", "tag-id2");
+            $tagId.val(id);
+
+            $tagDiv.append($tagId);
+            $(".tag-sel-div").append($tagDiv);
         });
+
+
     },
 
     saveTag: function () {
-        let tagId = $("#tag-sel option:selected").val();
+        let tagId = $(".tag-selected").find(".tag-id2").val();
         if (tagId) {
             addTag();
             clearSearchTag();
@@ -54,7 +117,7 @@ let api = {
 
         let url = "/tag";
         let body = {
-            name: $("#tag-sel option:selected").text()
+            name: $(".tag-selected").text()
         }
 
         commonMethod.fetchPost(url, body)
@@ -119,13 +182,13 @@ function addTag(id) {
     let tagName = document.createElement('div');
     let $tagName = $(tagName);
     $tagName.attr("class", "tag-name");
-    $tagName.text($("#tag-sel option:selected").text());
+    $tagName.text($(".tag-selected").text());
 
     let tagId = document.createElement('input');
     let $tagId = $(tagId);
     $tagId.attr("type", "hidden");
     $tagId.attr("class", "tag-id");
-    let tagIdValue = id ? id : $("#tag-sel option:selected").val();
+    let tagIdValue = id ? id : $(".tag-selected").find(".tag-id2").val();
     $tagId.val(tagIdValue);
 
     let button = document.createElement('button');
@@ -140,16 +203,39 @@ function addTag(id) {
 function addTagFlag() {
     let flg = true;
     $(".tag-name").each(function (index, item) {
-        if ($("#tag-sel option:selected").text() === $(item).text()) {
+        console.log($(item).text());
+        if ($(".tag-selected").text() === $(item).text()) {
             flg = false;
             return false;
         }
     });
+
     return flg;
 }
 
 function clearSearchTag() {
     $("#tag-input").val("");
-    $("#tag-sel").hide();
-    $("#tag-sel").empty();
+    $(".tag-sel-div").hide();
+    $(".tag-sel-div").empty();
+}
+
+function initSelTag() {
+    $(".tag-sel-item").first().addClass("tag-selected");
+    $(".tag-sel-item").first().css("background", "#cee6ff");
+    $(".tag-sel-item").hover(function () {
+        $(".tag-sel-item").not(this).css("background", "#ffffff");
+        $(".tag-sel-item").not(this).removeClass("tag-selected");
+        $(this).css("background", "#cee6ff").addClass("tag-selected");
+    });
+
+
+    $(".tag-sel-item").click(function () {
+        let addFlag = addTagFlag();
+
+        if (addFlag) {
+            api.saveTag();
+        } else {
+            clearSearchTag();
+        }
+    });
 }

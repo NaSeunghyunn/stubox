@@ -58,6 +58,7 @@ let callback = {
 function genArticle(data) {
     let article = document.createElement('article');
     let $article = $(article);
+    $article.attr("class", "bottom-line");
 
     let a = document.createElement('a');
     let $a = $(a);

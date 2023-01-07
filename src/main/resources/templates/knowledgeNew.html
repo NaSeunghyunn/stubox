@@ -4,16 +4,6 @@
 <head th:replace="fragments/header.html :: summernote_header(~{::title}, ~{::style})">
     <title>지식글 작성</title>
     <style>
-        #tag-sel {
-            display: none;
-        }
-
-        #tag-sel option {
-            padding: 10px;
-            border-bottom: 2px solid #eee;
-            cursor: pointer;
-        }
-
         .loading {
             position: absolute;
             left: 43%;
@@ -43,6 +33,33 @@
             border: none;
             background: #e4e9ed;
         }
+
+        .tag-sel-div {
+            display: none;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            width: 100%;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+
+        .tag-sel-item {
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            background: #ffffff;
+            border: 0;
+            border-bottom: 2px solid #eee;
+            text-align: left;
+        }
     </style>
 </head>
 
@@ -60,13 +77,7 @@
             <div class="input-box">
                 <input type="text" class="form-control" id="tag-input" placeholder="태그를 입력해주세요.">
             </div>
-            <select size="4" class="form-select mt-2" id="tag-sel">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            <div class="tag-sel-div"></div>
             <div class="tags mt-1"></div>
         </div>
         <div class="mt-3" id="contents-area">
