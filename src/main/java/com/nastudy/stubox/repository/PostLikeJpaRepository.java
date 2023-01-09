@@ -1,7 +1,9 @@
 package com.nastudy.stubox.repository;
 
+import com.nastudy.stubox.domain.entity.Post;
 import com.nastudy.stubox.domain.entity.PostLike;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -13,4 +15,8 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLike, Long> {
 
     @Query("select pl from PostLike pl where pl.member.id = :memberId and pl.post.id = :postId")
     PostLike findMyPostLike(@Param("memberId") Long memberId, @Param("postId") Long postId);
+
+    @Modifying
+    @Query("delete from PostLike pl where pl.post = :post")
+    int deleteByPost(@Param("post") Post post);
 }

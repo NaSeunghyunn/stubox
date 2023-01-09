@@ -85,10 +85,15 @@
             <label for="contents" class="form-label">본문</label>
             <textarea class="summernote" id="contents" name="editordata"></textarea>
         </div>
-        <div class="mt-2 text-end" style="width: 100%">
+        <div th:if="${isMyPost}" class="mt-2 text-end" style="width: 100%">
+            <button type="button" class="btn btn-primary" onclick="api.deletePost();">삭제</button>
+            <button type="button" class="btn btn-primary" onclick="api.edit();">수정</button>
+        </div>
+        <div th:unless="${isMyPost}" class="mt-2 text-end" style="width: 100%">
             <button type="button" class="btn btn-primary" onclick="api.saveKnowledge();">등록</button>
         </div>
     </div>
+    <input type="hidden" id="id" th:value="${id}">
 </body>
 <script src="/js/common.js"></script>
 <script src="/js/knowledgeNew.js"></script>

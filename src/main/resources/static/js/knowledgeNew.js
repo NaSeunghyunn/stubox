@@ -5,6 +5,11 @@ window.addEventListener("keydown", function (e) {
 }, false);
 
 $(document).ready(function () {
+
+    if ($("#id").val()) {
+        api.findEdit();
+    }
+
     var timeout = null;
     $("#tag-input").keyup(function (e) {
         var key = e.keyCode;
@@ -103,8 +108,6 @@ let api = {
             $tagDiv.append($tagId);
             $(".tag-sel-div").append($tagDiv);
         });
-
-
     },
 
     saveTag: function () {
@@ -142,6 +145,49 @@ let api = {
         commonMethod.fetchPost(url, body)
             .then(() => location.href = "/knowledge")
             .catch(err => false);
+    },
+
+    findEdit: function () {
+        let url = "/knowledge/edit/" + $("#id").val();
+        commonMethod.fetchGet(url)
+            .then(data => callbacks.findEdit(data))
+            .catch(err => false);
+    },
+
+    edit: function () {
+        let url = "/knowledge/edit";
+        let $tags = $(".tag-id");
+        let tagIds = [];
+        $tags.each(function (index, item) {
+            tagIds.push($(item).val());
+        });
+        let body = {
+            id: $("#id").val(),
+            title: $("#title").val(),
+            content: $("#contents").val(),
+            previewURL: $(".note-editable").find("img").attr("src"),
+            tagIds: tagIds
+        };
+        commonMethod.fetchPost(url, body)
+            .then(() => location.href = "/knowledge/" + $("#id").val())
+            .catch(err => false);
+    },
+
+    deletePost: function () {
+        let url = "/knowledge/" + $("#id").val();
+        commonMethod.fetch(url, "DELETE")
+            .then(() => location.href = "/knowledge")
+            .catch(err => false);
+    }
+};
+
+let callbacks = {
+    findEdit: function (data) {
+        $("#title").val(data.title);
+        $('.summernote').summernote('code', data.content);
+        $(data.tags).each(function (index, item) {
+            addTag(item.id, item.name);
+        });
     }
 }
 
@@ -174,7 +220,7 @@ function removeTag(tag) {
     $tagDiv.remove();
 }
 
-function addTag(id) {
+function addTag(id, name) {
     let tagDiv = document.createElement('div');
     let $tagDiv = $(tagDiv);
     $tagDiv.attr("class", "tag m-1");
@@ -182,7 +228,8 @@ function addTag(id) {
     let tagName = document.createElement('div');
     let $tagName = $(tagName);
     $tagName.attr("class", "tag-name");
-    $tagName.text($(".tag-selected").text());
+    let tagNameValue = name ? name : $(".tag-selected").text();
+    $tagName.text(tagNameValue);
 
     let tagId = document.createElement('input');
     let $tagId = $(tagId);

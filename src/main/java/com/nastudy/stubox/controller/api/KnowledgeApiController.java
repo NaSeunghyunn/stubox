@@ -1,6 +1,7 @@
 package com.nastudy.stubox.controller.api;
 
 import com.nastudy.stubox.config.auth.PrincipalDetail;
+import com.nastudy.stubox.controller.form.PostEditForm;
 import com.nastudy.stubox.controller.form.PostForm;
 import com.nastudy.stubox.controller.form.PostSaveForm;
 import com.nastudy.stubox.domain.FileUploader;
@@ -8,6 +9,7 @@ import com.nastudy.stubox.domain.S3Folder;
 import com.nastudy.stubox.dto.ImageResponse;
 import com.nastudy.stubox.dto.PostDetailDto;
 import com.nastudy.stubox.dto.PostDto;
+import com.nastudy.stubox.dto.PostEditDto;
 import com.nastudy.stubox.service.KnowledgeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -49,4 +51,20 @@ public class KnowledgeApiController {
     public Long save(@RequestBody @Validated PostSaveForm form, @AuthenticationPrincipal PrincipalDetail principal) {
         return knowledgeService.save(form, principal.getMemberId());
     }
+
+    @GetMapping("/edit/{id}")
+    public PostEditDto findEditPost(@PathVariable("id") Long id, @AuthenticationPrincipal PrincipalDetail principal) {
+        return knowledgeService.findEditPost(id, principal.getMemberId());
+    }
+
+    @PostMapping("/edit")
+    public Long edit(@RequestBody @Validated PostEditForm form, @AuthenticationPrincipal PrincipalDetail principal) {
+        return knowledgeService.edit(form, principal.getMemberId());
+    }
+
+    @DeleteMapping("/{id}")
+    public Long delete(@PathVariable("id") Long id, @AuthenticationPrincipal PrincipalDetail principal) {
+        return knowledgeService.delete(id, principal.getMemberId());
+    }
+
 }

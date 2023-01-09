@@ -76,4 +76,10 @@ public class Post extends BaseEntity {
     public void likeCountUp() {
         likeCount++;
     }
+
+    public void edit(String title, String content, String previewURL){
+        this.title = title;
+        this.content = content;
+        this.previewURL = previewURL;
+    }
 }

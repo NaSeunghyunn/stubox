@@ -2,12 +2,11 @@ package com.nastudy.stubox.repository;
 
 import com.nastudy.stubox.controller.form.PostForm;
 import com.nastudy.stubox.domain.PostSortType;
-import com.nastudy.stubox.dto.PostDto;
-import com.nastudy.stubox.dto.PostTagDto;
-import com.nastudy.stubox.dto.QPostDto;
-import com.nastudy.stubox.dto.QPostTagDto;
+import com.nastudy.stubox.dto.*;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -92,6 +91,28 @@ public class PostRepository {
                         searchTag(form.getSearch())
                 ).fetchOne();
         return new PageImpl<>(new ArrayList<>(), PageRequest.of(form.getPage(), form.getSize()), totalCount);
+    }
+
+    public PostEditDto findEditPost(Long postId, Long memberId) {
+        Tuple postTuple = queryFactory
+                .select(post.title, post.content)
+                .from(post)
+                .where(
+                        post.id.eq(postId),
+                        post.writer.id.eq(memberId)
+                ).fetchOne();
+
+        List<TagDto> tags = queryFactory.select(Projections.constructor(
+                        TagDto.class
+                        , tag.id
+                        , tag.name
+                ))
+                .from(postTag)
+                .innerJoin(postTag.tag, tag)
+                .where(postTag.post.id.eq(postId))
+                .fetch();
+
+        return new PostEditDto(postTuple.get(post.title), postTuple.get(post.content), tags);
     }
 
     private List<PostDto> posts(PostForm form, List<Long> ids) {

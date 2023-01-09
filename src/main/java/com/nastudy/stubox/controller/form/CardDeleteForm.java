@@ -1,10 +1,10 @@
 package com.nastudy.stubox.controller.form;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
 public class CardDeleteForm {
     @NotNull
     private Long id;

@@ -1,6 +1,7 @@
 package com.nastudy.stubox.repository;
 
 import com.nastudy.stubox.domain.entity.Comment;
+import com.nastudy.stubox.domain.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +15,6 @@ public interface CommentJpaRepository extends JpaRepository<Comment, Long> {
 
     @Query("select c from Comment c where c.id = :commentId and c.writer.id = :memberId")
     Optional<Comment> findMyComment(@Param("commentId") Long commentId, @Param("memberId") Long memberId);
+
+    int deleteByPost(Post post);
 }

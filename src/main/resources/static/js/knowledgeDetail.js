@@ -3,6 +3,32 @@ $(document).ready(function () {
     api.findPostLike();
     api.findPostTags();
     api.findComments();
+
+    let notEditBtnFocus = true;
+    $(".edit-btn").on("mouseenter", function () {
+        notEditBtnFocus = false;
+    });
+    $(".edit-btn").on("mouseleave", function () {
+        notEditBtnFocus = true;
+    });
+
+    $(".edit-a").click(function () {
+        if ($(".edit-btn-area").hasClass("active")) {
+            $(".edit-btn-area").hide(300);
+            $(".edit-btn-area").removeClass("active");
+        } else {
+            $(".edit-btn-area").show(300);
+            $(".edit-btn-area").addClass("active");
+            $(".edit-a").focus();
+        }
+    });
+
+    $(".edit-a").focusout(function () {
+        if (notEditBtnFocus) {
+            $(".edit-btn-area").hide(300);
+            $(".edit-btn-area").removeClass("active");
+        }
+    });
 });
 
 let api = {
@@ -94,6 +120,13 @@ let api = {
         };
         commonMethod.fetch(url, "PUT", body)
             .then(() => this.findComments())
+            .catch(err => false);
+    },
+
+    deletePost: function () {
+        let url = "/knowledge/" + $("#postId").val();
+        commonMethod.fetch(url, "DELETE")
+            .then(() => location.href = "/knowledge")
             .catch(err => false);
     }
 

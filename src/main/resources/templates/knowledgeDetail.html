@@ -25,6 +25,10 @@
             padding-bottom: 20px;
         }
 
+        .content-area {
+            word-break: break-all;
+        }
+
         .content-area img {
             max-width: 100% !important;
         }
@@ -107,6 +111,41 @@
             margin-right: 10px;
         }
 
+        .edit-area {
+            position: relative;
+        }
+
+        .edit-area svg {
+            width: 30px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .edit-btn-area {
+            position: absolute;
+            top: 60%;
+            width: 100px;
+            left: -70px;
+            border: 1px solid #d2d2d2;
+            text-align: center;
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            white-space: nowrap;
+            display: none;
+        }
+
+        .edit-btn {
+            margin: 0 auto;
+            font-size: 0.8rem;
+            display: block;
+            background: #ffffff;
+            border: 0;
+            text-decoration: none;
+            color: black;
+            cursor: pointer;
+        }
+
         @media (max-width: 767px) {
             #commentChildInput {
                 padding: 0 !important;
@@ -126,18 +165,32 @@
         <div class="title-area mb-3">
             <h1 id="title"></h1>
         </div>
-        <div class="writer-area d-flex bottom-line">
-            <div>
-                <img class="profile-img" id="writer-profile"
-                    src="http://k.kakaocdn.net/dn/c5iag9/btrPPVXacU2/lEDdAhSl7H9Kxm54NNMj2k/img_640x640.jpg">
-            </div>
-            <div>
-                <div class="mx-2" id="writer-name"></div>
-                <div class="size-s color-gray">
-                    <span class="mx-2" id="updateAt"></span>
-                    <img src="https://stubox-bucket.s3.ap-northeast-1.amazonaws.com/viewCount.png">
-                    <span id="view-count"></span>
+        <div class="d-flex bottom-line justify-content-between">
+            <div class="writer-area d-flex ">
+                <div>
+                    <img class="profile-img" id="writer-profile">
                 </div>
+                <div>
+                    <div class="mx-2" id="writer-name"></div>
+                    <div class="size-s color-gray">
+                        <span class="mx-2" id="updateAt"></span>
+                        <img src="https://stubox-bucket.s3.ap-northeast-1.amazonaws.com/viewCount.png">
+                        <span id="view-count"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-area">
+                <div class="edit-btn-area">
+                    <a th:href="@{|/knowledge/${postId}/edit|}" class="edit-btn">수정하기</a>
+                    <a class="edit-btn" onclick="api.deletePost();">삭제하기</a>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true"
+                    class="edit-a h-6 w-6 text-gray-400 hover:text-blue-500 focus:outline-0 focus:ring-0 dark:hover:text-blue-200">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z">
+                    </path>
+                </svg>
             </div>
         </div>
         <div class="content-area p-4"></div>
