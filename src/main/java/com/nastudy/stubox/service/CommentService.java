@@ -2,6 +2,7 @@ package com.nastudy.stubox.service;
 
 import com.nastudy.stubox.config.auth.Auth2Service;
 import com.nastudy.stubox.controller.form.CommentChildSaveForm;
+import com.nastudy.stubox.controller.form.CommentDeleteForm;
 import com.nastudy.stubox.controller.form.CommentSaveForm;
 import com.nastudy.stubox.controller.form.CommentUpdateForm;
 import com.nastudy.stubox.domain.entity.Comment;
@@ -59,10 +60,15 @@ public class CommentService {
         return comments.stream().map(CommentDto::new).collect(Collectors.toList());
     }
 
-    public Long delete(Long commentId, Long memberId) {
-        Comment comment = commentJpaRepository.findMyComment(commentId, memberId).orElseThrow(() -> new IllegalArgumentException("삭제 할 수 없습니다."));
+    public Long delete(CommentDeleteForm form, Long memberId) {
+        Comment comment = commentJpaRepository.findMyComment(form.getCommentId(), memberId).orElseThrow(() -> new IllegalArgumentException("삭제 할 수 없습니다."));
+        Post post = comment.getParent() == null ? comment.getPost() : comment.getParent().getPost();
+        if (!post.getId().equals(form.getPostId())) {
+            throw new IllegalArgumentException("해당 게시물의 댓글이 아닙니다.");
+        }
+        post.commentCountDown();
         commentJpaRepository.delete(comment);
-        return commentId;
+        return form.getCommentId();
     }
 
     public Long update(CommentUpdateForm form, Long memberId) {

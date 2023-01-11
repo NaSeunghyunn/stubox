@@ -47,6 +47,7 @@ public class PostLikeService {
         if (myPostLike == null) {
             throw new IllegalArgumentException("아직 좋아요를 누르지 않았습니다.");
         }
+        myPostLike.getPost().likeCountDown();
         postLikeJpaRepository.delete(myPostLike);
         return myPostLike.getId();
     }

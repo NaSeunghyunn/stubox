@@ -73,6 +73,9 @@ function genArticle(data) {
     let $preview = $(preview);
     $preview.attr("class", "css-preview");
     $preview.attr("src", data.preView);
+    if(!data.preView){
+        $preview.addClass("no-image");
+    }
 
     let contentDiv = document.createElement('div');
     let $contentDiv = $(contentDiv);

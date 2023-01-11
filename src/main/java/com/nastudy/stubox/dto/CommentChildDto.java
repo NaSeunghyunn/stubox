@@ -3,6 +3,7 @@ package com.nastudy.stubox.dto;
 import com.nastudy.stubox.domain.entity.Comment;
 import lombok.Data;
 
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @Data
@@ -20,6 +21,6 @@ public class CommentChildDto {
         if(comment.getReceiver() != null){
             this.receiver = comment.getReceiver().getName();
         }
-        this.updateAt = comment.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+        this.updateAt = comment.getUpdateDate().atZone(ZoneId.of("Asia/Tokyo")).format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
     }
 }

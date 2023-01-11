@@ -73,11 +73,19 @@ public class Post extends BaseEntity {
         commentCount++;
     }
 
+    public void commentCountDown() {
+        commentCount--;
+    }
+
     public void likeCountUp() {
         likeCount++;
     }
 
-    public void edit(String title, String content, String previewURL){
+    public void likeCountDown() {
+        likeCount--;
+    }
+
+    public void edit(String title, String content, String previewURL) {
         this.title = title;
         this.content = content;
         this.previewURL = previewURL;

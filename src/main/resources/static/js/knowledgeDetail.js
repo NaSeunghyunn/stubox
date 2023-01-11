@@ -106,8 +106,12 @@ let api = {
     },
 
     deleteComment: function (id) {
-        let url = "/comment/" + id;
-        commonMethod.fetch(url, "DELETE")
+        let url = "/comment";
+        let body = {
+            postId: $("#postId").val(),
+            commentId: id
+        }
+        commonMethod.fetch(url, "DELETE", body)
             .then(() => this.findComments())
             .catch(err => false);
     },

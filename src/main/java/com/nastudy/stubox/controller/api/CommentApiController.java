@@ -2,6 +2,7 @@ package com.nastudy.stubox.controller.api;
 
 import com.nastudy.stubox.config.auth.PrincipalDetail;
 import com.nastudy.stubox.controller.form.CommentChildSaveForm;
+import com.nastudy.stubox.controller.form.CommentDeleteForm;
 import com.nastudy.stubox.controller.form.CommentSaveForm;
 import com.nastudy.stubox.controller.form.CommentUpdateForm;
 import com.nastudy.stubox.dto.CommentDto;
@@ -34,9 +35,9 @@ public class CommentApiController {
         return commentService.findAll(postId);
     }
 
-    @DeleteMapping("/{id}")
-    public Long delete(@PathVariable("id") Long id, @AuthenticationPrincipal PrincipalDetail principal) {
-        return commentService.delete(id, principal.getMemberId());
+    @DeleteMapping()
+    public Long delete(@RequestBody @Validated CommentDeleteForm form, @AuthenticationPrincipal PrincipalDetail principal) {
+        return commentService.delete(form, principal.getMemberId());
     }
 
     @PutMapping()
