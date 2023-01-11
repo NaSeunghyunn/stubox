@@ -179,7 +179,7 @@ let callback = {
 
             let tag = document.createElement('a');
             let $tag = $(tag);
-            $tag.attr("href", "#");
+            $tag.attr("href", "/knowledge?searchType=TAG&search="+item.name);
             $tag.text("#" + item.name);
 
             $tagDiv.append($tag);
